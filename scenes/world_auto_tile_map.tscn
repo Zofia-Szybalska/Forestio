@@ -1,6 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://bb7sf1qq1mdt2"]
+[gd_scene load_steps=7 format=3 uid="uid://bb7sf1qq1mdt2"]
 
 [ext_resource type="Texture2D" uid="uid://cn6hapsr4vie2" path="res://assets/Tilesets/TilesetGrassSandBase.png" id="1_mwp8t"]
+[ext_resource type="Texture2D" uid="uid://cxmmdu4igpmaa" path="res://assets/Tilesets/Highlight.png" id="2_fglx0"]
+[ext_resource type="Script" path="res://scripts/world_auto_tile_map.gd" id="3_0hrm5"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_xmlbp"]
 texture = ExtResource("1_mwp8t")
@@ -534,6 +536,11 @@ texture_region_size = Vector2i(256, 180)
 5:7/0/terrains_peering_bit/top_corner = 1
 5:7/0/terrains_peering_bit/top_right_side = 0
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_osv0b"]
+texture = ExtResource("2_fglx0")
+texture_region_size = Vector2i(256, 180)
+0:0/0 = 0
+
 [sub_resource type="TileSet" id="TileSet_8oceg"]
 tile_shape = 1
 tile_size = Vector2i(256, 145)
@@ -543,17 +550,19 @@ terrain_set_0/terrain_0/color = Color(0.5, 0.34375, 0.25, 1)
 terrain_set_0/terrain_1/name = "Grass"
 terrain_set_0/terrain_1/color = Color(0.0823529, 0.439216, 0.25098, 1)
 sources/0 = SubResource("TileSetAtlasSource_xmlbp")
+sources/1 = SubResource("TileSetAtlasSource_osv0b")
 
-[node name="TileMap" type="TileMap"]
+[node name="WorldAutoTileMap" type="TileMap"]
 y_sort_enabled = true
 tile_set = SubResource("TileSet_8oceg")
 format = 2
 layer_0/name = "Base"
 layer_0/y_sort_enabled = true
-layer_1/name = "Hightlight"
+layer_1/name = "Highlight"
 layer_1/enabled = true
 layer_1/modulate = Color(1, 1, 1, 1)
 layer_1/y_sort_enabled = true
 layer_1/y_sort_origin = 0
 layer_1/z_index = 0
 layer_1/tile_data = PackedInt32Array()
+script = ExtResource("3_0hrm5")
