@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://ky25tq14d7dy"]
+
+[ext_resource type="Script" path="res://scripts/level_camera.gd" id="1_a4uok"]
+
+[node name="LevelCamera" type="Camera2D"]
+zoom = Vector2(0.6, 0.6)
+script = ExtResource("1_a4uok")
