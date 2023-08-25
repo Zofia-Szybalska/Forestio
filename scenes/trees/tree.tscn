@@ -1,0 +1,43 @@
+[gd_scene load_steps=3 format=3 uid="uid://cl2jfbx56yjar"]
+
+[ext_resource type="Script" path="res://scripts/tree.gd" id="1_msti8"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_eiea0"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"fully_grown",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"fully_grown_dead",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"seedling",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"seedling_dead",
+"speed": 5.0
+}]
+
+[node name="Tree" type="Node2D"]
+script = ExtResource("1_msti8")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_eiea0")
+animation = &"seedling_dead"
+
+[node name="CurrencyTimer" type="Timer" parent="."]
+autostart = true
+
+[node name="GrowthTimer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[connection signal="timeout" from="CurrencyTimer" to="." method="_on_currency_timer_timeout"]
+[connection signal="timeout" from="GrowthTimer" to="." method="_on_growth_timer_timeout"]

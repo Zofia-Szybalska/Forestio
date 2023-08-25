@@ -1,0 +1,65 @@
+[gd_scene load_steps=8 format=3 uid="uid://dqnsyce5pimlc"]
+
+[ext_resource type="Script" path="res://scripts/factory.gd" id="1_0f42m"]
+[ext_resource type="Texture2D" uid="uid://b0lhi52arjrdn" path="res://assets/Factory.png" id="1_pywdt"]
+[ext_resource type="Texture2D" uid="uid://bp7p0fi2qkalq" path="res://assets/Destroyedfactory.png" id="2_7dscu"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xdwe4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_7dscu")
+}],
+"loop": true,
+"name": &"destroyed",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_pywdt")
+}],
+"loop": true,
+"name": &"working",
+"speed": 5.0
+}]
+
+[sub_resource type="Gradient" id="Gradient_ge6go"]
+offsets = PackedFloat32Array(0.616352, 1)
+colors = PackedColorArray(0.252028, 0.252028, 0.252028, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_bujpb"]
+gradient = SubResource("Gradient_ge6go")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_i8s3p"]
+lifetime_randomness = 0.7
+direction = Vector3(0, 0, 0)
+gravity = Vector3(0, -100, 0)
+linear_accel_max = 58.88
+scale_min = 2.0
+scale_max = 15.0
+color_ramp = SubResource("GradientTexture1D_bujpb")
+
+[node name="Factory" type="Node2D"]
+script = ExtResource("1_0f42m")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(6, -130)
+sprite_frames = SubResource("SpriteFrames_xdwe4")
+animation = &"destroyed"
+metadata/_edit_lock_ = true
+
+[node name="ExpandTimer" type="Timer" parent="."]
+wait_time = 10.0
+autostart = true
+
+[node name="Smoke" type="Node2D" parent="."]
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="Smoke"]
+position = Vector2(5, -290)
+process_material = SubResource("ParticleProcessMaterial_i8s3p")
+
+[node name="GPUParticles2D2" type="GPUParticles2D" parent="Smoke"]
+position = Vector2(-65, -235)
+process_material = SubResource("ParticleProcessMaterial_i8s3p")
+
+[connection signal="timeout" from="ExpandTimer" to="." method="_on_expand_timer_timeout"]
