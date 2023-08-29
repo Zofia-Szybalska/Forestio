@@ -46,3 +46,6 @@ animations = [{
 [node name="AnimatedSprite2D" parent="." index="0"]
 position = Vector2(0, -128)
 sprite_frames = SubResource("SpriteFrames_xaoj7")
+
+[node name="GrowthTimer" parent="." index="2"]
+wait_time = 10.0

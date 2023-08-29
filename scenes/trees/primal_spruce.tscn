@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://by8unbuvh05h4"]
+
+[ext_resource type="PackedScene" uid="uid://7yqam4eqx525" path="res://scenes/trees/spruce.tscn" id="1_bjff8"]
+
+[node name="PrimalSpruce" instance=ExtResource("1_bjff8")]
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+position = Vector2(0, -233)
+scale = Vector2(2, 2)

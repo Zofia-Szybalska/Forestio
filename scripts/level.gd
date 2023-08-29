@@ -1,11 +1,13 @@
 extends Node2D
 
 var currency
-enum TreesTypes {OAK, PRIMAL_OAK}
+enum TreesTypes {OAK, PRIMAL_OAK, SPRUCE, PRIMAL_SPRUCE}
 var primal_oak_placed = false
+var primal_spruce_placed = false
 var tree_chosen: bool = true
 var chosen_tree = null
 var oak_cost = 10
+var spruce_cost = 10
 var mouse_pos
 
 @export var starting_currency: int = 100
@@ -34,8 +36,7 @@ func _on_grass_tiles_changed(tiles_count):
 	if value >= 95:
 		show_level_ended("Nature has won!")
 	elif value <= 5:
-		show_level_ended("Pollution has won!")
-	
+		show_level_ended("Pollution has won!")	
 
 func _process(_delta):
 	mouse_pos = get_global_mouse_position()
@@ -68,6 +69,17 @@ func place_tree(pos):
 		if currency >= oak_cost:
 			_on_currency_changed(-oak_cost)
 			world_auto_tile_map.place_tree(pos, TreesTypes.OAK)
+	elif chosen_tree == TreesTypes.PRIMAL_SPRUCE and not primal_spruce_placed:
+		if currency >= spruce_cost*10:
+			_on_currency_changed(-spruce_cost*10)
+			world_auto_tile_map.place_tree(pos, TreesTypes.PRIMAL_SPRUCE)
+			primal_spruce_placed = true
+	elif chosen_tree == TreesTypes.SPRUCE and primal_spruce_placed:
+		if currency >= spruce_cost:
+			_on_currency_changed(-spruce_cost)
+			world_auto_tile_map.place_tree(pos, TreesTypes.SPRUCE)
+	else:
+		return
 
 func place_factory(pos):
 	world_auto_tile_map.place_factory(pos)

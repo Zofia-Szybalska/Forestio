@@ -12,16 +12,17 @@ var grass_layer:int = 2
 var pollution_layer:int = 1
 var trees : Dictionary = {}
 var factories : Dictionary = {}
-enum TreesTypes {OAK, PRIMAL_OAK}
-var primal_oak_placed = false
+enum TreesTypes {OAK, PRIMAL_OAK, SPRUCE, PRIMAL_SPRUCE}
 var firt_tree = true
 
 signal currency_changed
 signal grass_tiles_changed
 
 @onready var oak: PackedScene = preload("res://scenes/trees/oak.tscn")
-@onready var factory: PackedScene = preload("res://scenes/factory.tscn")
+@onready var spruce: PackedScene = preload("res://scenes/trees/spruce.tscn")
+@onready var base_factory: PackedScene = preload("res://scenes/factories/base_factory.tscn")
 @onready var primal_oak: PackedScene = preload("res://scenes/trees/primal_oak.tscn")
+@onready var primal_spruce: PackedScene = preload("res://scenes/trees/primal_spruce.tscn")
 
 
 func _ready():
@@ -61,10 +62,13 @@ func place_tree(pos, type):
 	var tree_instanced
 	if chosen_tree == TreesTypes.PRIMAL_OAK:
 		tree_instanced = primal_oak.instantiate()
-		primal_oak_placed = true
 		chosen_tree = TreesTypes.OAK
-	elif (chosen_tree == TreesTypes.OAK and primal_oak_placed) or firt_tree:
+	elif chosen_tree == TreesTypes.OAK or firt_tree:
 		tree_instanced = oak.instantiate()
+	elif chosen_tree == TreesTypes.PRIMAL_SPRUCE:
+		tree_instanced = primal_spruce.instantiate()
+	elif chosen_tree == TreesTypes.SPRUCE:
+		tree_instanced = spruce.instantiate()
 	
 	trees[tile] = tree_instanced
 	tree_instanced.position = map_to_local(tile)
@@ -81,7 +85,7 @@ func place_tree(pos, type):
 
 func place_factory(pos):
 	var tile = local_to_map(pos)
-	var factory_instanced = factory.instantiate()
+	var factory_instanced = base_factory.instantiate()
 	factories[tile] = factory_instanced
 	factory_instanced.position = map_to_local(tile)
 	set_cells_terrain_connect(base_layer, [tile],0,0)

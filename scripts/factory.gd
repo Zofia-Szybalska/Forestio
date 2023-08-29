@@ -17,7 +17,6 @@ func destroy():
 	$ExpandTimer.queue_free()
 	$Smoke.queue_free()
 	$AnimatedSprite2D.play("destroyed")
-	print("Fabryka zniszczona.")
 
 func _on_expand_timer_timeout():
 	if curr_expansion_radius <= 3:

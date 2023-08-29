@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://bgtdsxy78ck1i"]
+
+[ext_resource type="PackedScene" uid="uid://dqnsyce5pimlc" path="res://scenes/factory.tscn" id="1_33xl1"]
+[ext_resource type="Texture2D" uid="uid://bp7p0fi2qkalq" path="res://assets/Destroyedfactory.png" id="2_88jdj"]
+[ext_resource type="Texture2D" uid="uid://b0lhi52arjrdn" path="res://assets/Factory.png" id="3_r8m0v"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_nj03h"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_88jdj")
+}],
+"loop": true,
+"name": &"destroyed",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_r8m0v")
+}],
+"loop": true,
+"name": &"working",
+"speed": 5.0
+}]
+
+[node name="BaseFactory" instance=ExtResource("1_33xl1")]
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_nj03h")

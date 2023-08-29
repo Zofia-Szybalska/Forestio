@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bb7sf1qq1mdt2"]
+[gd_scene load_steps=17 format=3 uid="uid://bb7sf1qq1mdt2"]
 
 [ext_resource type="Texture2D" uid="uid://cn6hapsr4vie2" path="res://assets/Tilesets/TilesetGrassSandBase.png" id="1_mwp8t"]
 [ext_resource type="Texture2D" uid="uid://cxmmdu4igpmaa" path="res://assets/Tilesets/Highlight.png" id="2_fglx0"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://df4qfngjgs0xd" path="res://assets/Tilesets/TilesetPollution.png" id="4_hntt0"]
 [ext_resource type="Texture2D" uid="uid://d2ogbfufihyac" path="res://assets/Tilesets/TilesetDirtGrass.png" id="5_kq8rh"]
 [ext_resource type="Texture2D" uid="uid://hd8ugly4wb83" path="res://assets/Tilesets/TilesetGrassOver.png" id="6_y1juh"]
+[ext_resource type="Texture2D" uid="uid://ubxcjd04wgiu" path="res://assets/Tilesets/WaterLeftToRightAnimation.png" id="7_v4jg3"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_xmlbp"]
 texture = ExtResource("1_mwp8t")
@@ -2287,6 +2288,57 @@ texture_region_size = Vector2i(256, 180)
 5:7/0/terrains_peering_bit/top_right_side = 0
 5:7/0/custom_data_1 = true
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_iq66n"]
+texture = ExtResource("7_v4jg3")
+texture_region_size = Vector2i(256, 180)
+0:0/animation_columns = 4
+0:0/animation_frame_0/duration = 1.0
+0:0/animation_frame_1/duration = 1.0
+0:0/animation_frame_2/duration = 1.0
+0:0/animation_frame_3/duration = 1.0
+0:0/animation_frame_4/duration = 1.0
+0:0/animation_frame_5/duration = 1.0
+0:0/animation_frame_6/duration = 1.0
+0:0/animation_frame_7/duration = 1.0
+0:0/0 = 0
+0:0/0/custom_data_2 = true
+0:2/animation_columns = 4
+0:2/animation_speed = 5.0
+0:2/animation_frame_0/duration = 1.0
+0:2/animation_frame_1/duration = 1.0
+0:2/animation_frame_2/duration = 1.0
+0:2/animation_frame_3/duration = 1.0
+0:2/animation_frame_4/duration = 1.0
+0:2/animation_frame_5/duration = 1.0
+0:2/animation_frame_6/duration = 1.0
+0:2/animation_frame_7/duration = 1.0
+0:2/0 = 0
+0:2/0/custom_data_2 = true
+0:4/animation_columns = 4
+0:4/animation_speed = 5.0
+0:4/animation_frame_0/duration = 1.0
+0:4/animation_frame_1/duration = 1.0
+0:4/animation_frame_2/duration = 1.0
+0:4/animation_frame_3/duration = 1.0
+0:4/animation_frame_4/duration = 1.0
+0:4/animation_frame_5/duration = 1.0
+0:4/animation_frame_6/duration = 1.0
+0:4/animation_frame_7/duration = 1.0
+0:4/0 = 0
+0:4/0/custom_data_2 = true
+0:6/animation_columns = 4
+0:6/animation_speed = 5.0
+0:6/animation_frame_0/duration = 1.0
+0:6/animation_frame_1/duration = 1.0
+0:6/animation_frame_2/duration = 1.0
+0:6/animation_frame_3/duration = 1.0
+0:6/animation_frame_4/duration = 1.0
+0:6/animation_frame_5/duration = 1.0
+0:6/animation_frame_6/duration = 1.0
+0:6/animation_frame_7/duration = 1.0
+0:6/0 = 0
+0:6/0/custom_data_2 = true
+
 [sub_resource type="TileSet" id="TileSet_8oceg"]
 tile_shape = 1
 tile_layout = 4
@@ -2307,12 +2359,15 @@ custom_data_layer_0/name = "is_polluted"
 custom_data_layer_0/type = 1
 custom_data_layer_1/name = "grass"
 custom_data_layer_1/type = 1
+custom_data_layer_2/name = "water"
+custom_data_layer_2/type = 1
 sources/0 = SubResource("TileSetAtlasSource_xmlbp")
 sources/1 = SubResource("TileSetAtlasSource_osv0b")
 sources/3 = SubResource("TileSetAtlasSource_ohysq")
 sources/2 = SubResource("TileSetAtlasSource_ley7j")
 sources/4 = SubResource("TileSetAtlasSource_cns11")
 sources/5 = SubResource("TileSetAtlasSource_tqmji")
+sources/6 = SubResource("TileSetAtlasSource_iq66n")
 
 [node name="WorldAutoTileMap" type="TileMap"]
 y_sort_enabled = true
