@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bp7p0fi2qkalq"
-path="res://.godot/imported/Destroyedfactory.png-cc30ef737b2283bea5f0508f4be1c3e0.ctex"
+path="res://.godot/imported/Destroyedfactory.png-7b3e0b16d35739b89e6e0897892aa63a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Destroyedfactory.png"
-dest_files=["res://.godot/imported/Destroyedfactory.png-cc30ef737b2283bea5f0508f4be1c3e0.ctex"]
+source_file="res://assets/factories/Destroyedfactory.png"
+dest_files=["res://.godot/imported/Destroyedfactory.png-7b3e0b16d35739b89e6e0897892aa63a.ctex"]
 
 [params]
 

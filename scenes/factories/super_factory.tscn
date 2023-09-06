@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://c5hc7we2rc8sx"]
+
+[ext_resource type="PackedScene" uid="uid://dqnsyce5pimlc" path="res://scenes/factory.tscn" id="1_8bwpb"]
+[ext_resource type="Script" path="res://scripts/super_factory.gd" id="2_tohm4"]
+[ext_resource type="Texture2D" uid="uid://detxb0jbyq3mh" path="res://assets/factories/SuperFactory.png" id="2_w13f2"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0caka"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"destroyed",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_w13f2")
+}],
+"loop": true,
+"name": &"working",
+"speed": 5.0
+}]
+
+[node name="SuperFactory" instance=ExtResource("1_8bwpb")]
+script = ExtResource("2_tohm4")
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_0caka")
+
+[node name="ExpandTimer" parent="." index="1"]
+wait_time = 20.0

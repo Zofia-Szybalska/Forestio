@@ -25,9 +25,9 @@ func _ready():
 	currency = starting_currency
 	_on_currency_changed(0)
 	mouse_pos = get_global_mouse_position()
-	place_factory(Vector2(-3033.333, 713.3333))
-	place_factory(Vector2(700, 246.6665))
-	place_factory(Vector2(1306.667, -1440))
+	place_factory(Vector2(-3033.333, 713.3333), "base")
+	place_factory(Vector2(700, 246.6665), "base")
+	place_factory(Vector2(1306.667, -1440), "super")
 
 func _on_grass_tiles_changed(tiles_count):
 	grass_tiles = tiles_count
@@ -43,13 +43,8 @@ func _process(_delta):
 
 func _unhandled_input(event):
 	if event.is_action_pressed("left_click") and tree_chosen:
-		if world_auto_tile_map.can_place_object(mouse_pos):
+		if world_auto_tile_map.can_place_tree(mouse_pos):
 			place_tree(mouse_pos)
-	if event.is_action_pressed("ui_down"):
-		if world_auto_tile_map.can_place_object(mouse_pos):
-			place_factory(mouse_pos)
-	if event.is_action_pressed("check"):
-		print(mouse_pos)
 
 func _on_currency_changed(amount):
 	currency += amount
@@ -63,29 +58,30 @@ func place_tree(pos):
 	if chosen_tree == TreesTypes.PRIMAL_OAK and not primal_oak_placed:
 		if currency >= oak_cost*10:
 			_on_currency_changed(-oak_cost*10)
-			world_auto_tile_map.place_tree(pos, TreesTypes.PRIMAL_OAK)
+			world_auto_tile_map.place_tree(pos)
 			primal_oak_placed = true
 	elif chosen_tree == TreesTypes.OAK and primal_oak_placed:
 		if currency >= oak_cost:
 			_on_currency_changed(-oak_cost)
-			world_auto_tile_map.place_tree(pos, TreesTypes.OAK)
+			world_auto_tile_map.place_tree(pos)
 	elif chosen_tree == TreesTypes.PRIMAL_SPRUCE and not primal_spruce_placed:
 		if currency >= spruce_cost*10:
 			_on_currency_changed(-spruce_cost*10)
-			world_auto_tile_map.place_tree(pos, TreesTypes.PRIMAL_SPRUCE)
+			world_auto_tile_map.place_tree(pos)
 			primal_spruce_placed = true
 	elif chosen_tree == TreesTypes.SPRUCE and primal_spruce_placed:
 		if currency >= spruce_cost:
 			_on_currency_changed(-spruce_cost)
-			world_auto_tile_map.place_tree(pos, TreesTypes.SPRUCE)
+			world_auto_tile_map.place_tree(pos)
 	else:
 		return
 
-func place_factory(pos):
-	world_auto_tile_map.place_factory(pos)
+func place_factory(pos, type):
+	world_auto_tile_map.place_factory(pos, type)
 
 func _on_level_ui_chosen_tree_changed(type):
 	chosen_tree = type
+	world_auto_tile_map.chosen_tree = type
 	if chosen_tree == null:
 		tree_chosen = false
 	else:

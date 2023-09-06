@@ -22,12 +22,13 @@ func destroy():
 	$AnimatedSprite2D.play("destroyed")
 
 func _on_expand_timer_timeout():
+	print("zaczyna rosnąć, ", curr_expansion_radius)
 	if curr_expansion_radius == 1:
-		expanded.emit(surronding_tiles_radius1, 0, "pollution")
+		expanded.emit(surronding_tiles_radius1, 0, "super_pollution")
 		curr_expansion_radius += 1
 	elif curr_expansion_radius == 2:
-		expanded.emit(surronding_tiles_radius2, 0, "pollution")
+		expanded.emit(surronding_tiles_radius2, 0, "super_pollution")
 		curr_expansion_radius += 1
 	else:
-		expanded.emit(surronding_tiles_radius3, 1, "pollution")
+		expanded.emit(surronding_tiles_radius3, 1, "super_pollution")
 
