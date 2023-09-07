@@ -28,11 +28,12 @@ func _on_growth_timer_timeout():
 	if growth_state == 1:
 		$AnimatedSprite2D.play("fully_grown")
 	elif growth_state == 2:
-		has_grown.emit(surronding_tiles_radius1, tile)
+		has_grown.emit(surronding_tiles_radius1)
 	elif growth_state == 3:
-		has_grown.emit(surronding_tiles_radius2, tile)
+		has_grown.emit(surronding_tiles_radius2)
 	else:
-		has_grown.emit(surronding_tiles_radius3, tile)
+		has_grown.emit(surronding_tiles_radius3)
+		$GrowthTimer.stop()
 
 func kill():
 	$CurrencyTimer.stop()

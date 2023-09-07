@@ -41,7 +41,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Oak" instance=ExtResource("1_wdg8l")]
+[node name="Oak" groups=["oaks"] instance=ExtResource("1_wdg8l")]
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 position = Vector2(0, -128)

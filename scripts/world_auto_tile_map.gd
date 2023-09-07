@@ -12,9 +12,9 @@ var chosen_tree = null:
 
 var highlight_layer: int = 4
 var base_layer:int = 0
-var grass_layer:int = 2
+var grass_layer:int = 3
 var pollution_layer:int = 1
-var super_pollution_layer:int = 3
+var super_pollution_layer:int = 2
 var trees : Dictionary = {}
 var factories : Dictionary = {}
 enum TreesTypes {OAK, PRIMAL_OAK, SPRUCE, PRIMAL_SPRUCE}
@@ -139,7 +139,7 @@ func place_tree(pos):
 	$Trees.add_child(tree_instanced)
 	tree_instanced.has_grown.connect(_on_tree_has_grown)
 	tree_instanced.generated_currency.connect(_on_currency_changed)
-	grass_tiles_changed.emit(get_used_cells(2).size())
+	grass_tiles_changed.emit(get_used_cells(grass_layer).size())
 	if firt_tree:
 		tree_instanced.fully_grown()
 		firt_tree = false
@@ -162,16 +162,21 @@ func place_factory(pos, type):
 	$Factories.add_child(factory_instanced)
 	factory_instanced.expanded.connect(_on_factory_expanded)
 
-func _on_tree_has_grown(affected_tiles, tile):
+func _on_tree_has_grown(affected_tiles):
 	change_surronding_tiles_tree(affected_tiles)
-	grass_tiles_changed.emit(get_used_cells(2).size())
+	grass_tiles_changed.emit(get_used_cells(grass_layer).size())
 
-func _on_factory_expanded(affected_tiles, fully_expanded, pollution_type):
-	change_surronding_tiles_polution(affected_tiles, fully_expanded, pollution_type)
-	grass_tiles_changed.emit(get_used_cells(2).size())
+func _on_factory_expanded(affected_tiles, pollution_type):
+	change_surronding_tiles_polution(affected_tiles, pollution_type)
+	grass_tiles_changed.emit(get_used_cells(grass_layer).size())
 
 func _on_currency_changed(amount):
 	currency_changed.emit(amount)
+
+func is_grass(tile):
+	if not get_cell_source_id(grass_layer, tile) == -1:
+		return true
+	return false
 
 func change_surronding_tiles_tree(tiles: Array):
 	var local_tiles = tiles.duplicate()
@@ -179,22 +184,29 @@ func change_surronding_tiles_tree(tiles: Array):
 		var data = get_cell_tile_data(super_pollution_layer, tile)
 		if data and data.get_custom_data("is_polluted"):
 			local_tiles.erase(tile)
-		elif factories.has(tile) and not factories[tile].is_destroyed:
-			factories[tile].destroy()
+		if factories.has(tile) and not factories[tile].is_destroyed:
+			if factories[tile].is_in_group("base_factories"):
+				factories[tile].destroy()
+			if factories[tile].is_in_group("super_factories") and factories[tile].surronding_tiles_radius1.any(is_grass):
+				factories[tile].destroy()
+
+				local_tiles.append(tile)
 	set_cells_terrain_connect(grass_layer, local_tiles, 1, 0, false)
 	set_cells_terrain_connect(base_layer, local_tiles, 0, 2, false)
 
-func change_surronding_tiles_polution(affected_tiles, fully_expanded, pollution_type):
+func change_surronding_tiles_polution(affected_tiles, pollution_type):
 	for tile in affected_tiles:
 		if tile in trees:
+			if trees[tile].is_in_group("oaks"):
+				trees[tile].remove_from_group("oaks")
+			if trees[tile].is_in_group("spruces"):
+				trees[tile].remove_from_group("spruces")
 			trees[tile].kill()
 	if pollution_type == "pollution":
 		set_cells_terrain_connect(base_layer, affected_tiles, 0, 0)
-		set_cells_terrain_connect(grass_layer, affected_tiles, 1, -1)
-		if not fully_expanded:
-			set_cells_terrain_connect(pollution_layer, affected_tiles, 0, 3, false)
 	elif pollution_type == "super_pollution":
 		set_cells_terrain_connect(super_pollution_layer, affected_tiles, 2, 0)
+	set_cells_terrain_connect(grass_layer, affected_tiles, 1, -1)
 
 func get_surronding_tiles(tile, radius):
 	var target_tile
@@ -211,6 +223,5 @@ func get_surronding_tiles(tile, radius):
 func remove_tiles(layer, tiles):
 	for tile in tiles:
 		erase_cell(layer, tile)
-
 
 

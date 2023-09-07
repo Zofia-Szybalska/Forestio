@@ -23,11 +23,11 @@ func destroy():
 
 func _on_expand_timer_timeout():
 	if curr_expansion_radius == 1:
-		expanded.emit(surronding_tiles_radius1, 0, "pollution")
+		expanded.emit(surronding_tiles_radius1, "pollution")
 		curr_expansion_radius += 1
 	elif curr_expansion_radius == 2:
-		expanded.emit(surronding_tiles_radius2, 0, "pollution")
+		expanded.emit(surronding_tiles_radius2, "pollution")
 		curr_expansion_radius += 1
 	else:
-		expanded.emit(surronding_tiles_radius3, 1, "pollution")
+		expanded.emit(surronding_tiles_radius3, "pollution")
 

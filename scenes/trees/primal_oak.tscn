@@ -22,7 +22,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="PrimalOak" instance=ExtResource("1_luysg")]
+[node name="PrimalOak" groups=["oaks"] instance=ExtResource("1_luysg")]
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 position = Vector2(0, -233)

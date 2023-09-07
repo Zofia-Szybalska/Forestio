@@ -25,7 +25,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Tree" type="Node2D"]
+[node name="Tree" type="Node2D" groups=["trees"]]
 script = ExtResource("1_msti8")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
