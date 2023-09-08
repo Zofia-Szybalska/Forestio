@@ -31,7 +31,7 @@ func _on_growth_timer_timeout():
 		has_grown.emit(surronding_tiles_radius1)
 	else:
 		has_grown.emit(surronding_tiles_radius2)
-		$GrowthTimer.stop()
+
 
 func kill():
 	$CurrencyTimer.stop()

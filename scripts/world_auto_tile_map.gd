@@ -10,10 +10,11 @@ var chosen_tree = null:
 		chosen_tree = value
 		_on_chosen_tree_change()
 
-var highlight_layer: int = 4
+var highlight_layer: int = 5
 var base_layer:int = 0
 var grass_layer:int = 3
 var pollution_layer:int = 1
+var water_layer:int = 4
 var super_pollution_layer:int = 2
 var trees : Dictionary = {}
 var factories : Dictionary = {}
@@ -33,7 +34,6 @@ signal grass_tiles_changed
 @onready var oak_texture = preload("res://assets/trees/OakFullyGrown.png")
 @onready var spruce_texture = preload("res://assets/trees/Spruce.png")
 
-
 func _ready():
 	mouse_pos = get_global_mouse_position()
 	curr_tile = local_to_map(mouse_pos)
@@ -51,7 +51,8 @@ func _process(_delta):
 	if not chosen_tree == null:
 		draw_building_preview()
 	if Input.is_action_pressed("check"):
-		print(curr_tile)
+		pass
+	grass_tiles_changed.emit(get_used_cells(grass_layer).size())
 
 func _on_chosen_tree_change():
 	if chosen_tree == TreesTypes.PRIMAL_OAK:
@@ -71,8 +72,12 @@ func _on_chosen_tree_change():
 
 func can_place_object(pos):
 	var tile = local_to_map(pos)
+	var data = get_cell_tile_data(water_layer, tile)
 	if get_cell_source_id(base_layer, tile) == -1 or trees.has(tile) or factories.has(tile):
 		return false
+	elif data:
+		if data.get_custom_data("water"):
+			return false
 	else:
 		return true
 
@@ -139,7 +144,7 @@ func place_tree(pos):
 	$Trees.add_child(tree_instanced)
 	tree_instanced.has_grown.connect(_on_tree_has_grown)
 	tree_instanced.generated_currency.connect(_on_currency_changed)
-	grass_tiles_changed.emit(get_used_cells(grass_layer).size())
+#	grass_tiles_changed.emit(get_used_cells(grass_layer).size())
 	if firt_tree:
 		tree_instanced.fully_grown()
 		firt_tree = false
@@ -164,11 +169,9 @@ func place_factory(pos, type):
 
 func _on_tree_has_grown(affected_tiles):
 	change_surronding_tiles_tree(affected_tiles)
-	grass_tiles_changed.emit(get_used_cells(grass_layer).size())
 
 func _on_factory_expanded(affected_tiles, pollution_type):
 	change_surronding_tiles_polution(affected_tiles, pollution_type)
-	grass_tiles_changed.emit(get_used_cells(grass_layer).size())
 
 func _on_currency_changed(amount):
 	currency_changed.emit(amount)
@@ -216,6 +219,9 @@ func get_surronding_tiles(tile, radius):
 		for x in count:
 			target_tile = tile + Vector2i(x-radius, y-radius)
 			if get_cell_source_id(0, target_tile) == -1:
+				continue
+			var data = get_cell_tile_data(water_layer, target_tile)
+			if data and data.get_custom_data("water"):
 				continue
 			surronding_tiles.append(target_tile)
 	return surronding_tiles
