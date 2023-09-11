@@ -7,7 +7,7 @@
 
 [sub_resource type="Theme" id="Theme_iydsi"]
 
-[node name="CanvasLayer" type="CanvasLayer"]
+[node name="LevelUI" type="CanvasLayer"]
 script = ExtResource("1_mu2s0")
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
@@ -109,7 +109,12 @@ icon_alignment = 1
 vertical_icon_alignment = 0
 expand_icon = true
 
+[node name="DestroyButton" type="Button" parent="PanelContainer/HBoxContainer"]
+layout_mode = 2
+text = "Destroy"
+
 [connection signal="pressed" from="PanelContainer/HBoxContainer/PrimalOakButton" to="." method="_on_primal_oak_button_pressed"]
 [connection signal="pressed" from="PanelContainer/HBoxContainer/OakButton" to="." method="_on_oak_button_pressed"]
 [connection signal="pressed" from="PanelContainer/HBoxContainer/PrimalSpruceButton" to="." method="_on_primal_spruce_button_pressed"]
 [connection signal="pressed" from="PanelContainer/HBoxContainer/SpruceButton" to="." method="_on_spruce_button_pressed"]
+[connection signal="pressed" from="PanelContainer/HBoxContainer/DestroyButton" to="." method="_on_destroy_button_pressed"]

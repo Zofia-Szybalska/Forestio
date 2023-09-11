@@ -24,4 +24,5 @@ layer_4/tile_data = PackedInt32Array(589814, 8, 13, 524278, 524296, 1, 458742, 5
 visible = false
 
 [connection signal="chosen_tree_changed" from="UI/LevelUI" to="." method="_on_level_ui_chosen_tree_changed"]
+[connection signal="destroy_mode_changed" from="UI/LevelUI" to="." method="_on_level_ui_destroy_mode_changed"]
 [connection signal="level_restarted" from="UI/LevelEnded" to="." method="_on_level_ended_level_restarted"]

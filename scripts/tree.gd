@@ -21,7 +21,6 @@ func fully_grown():
 func _on_currency_timer_timeout():
 	generated_currency.emit(currency_per_second)
 
-
 func _on_growth_timer_timeout():
 	if growth_state < 4:
 		growth_state += 1

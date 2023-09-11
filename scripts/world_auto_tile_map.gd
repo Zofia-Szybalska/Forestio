@@ -21,6 +21,7 @@ var factories : Dictionary = {}
 enum TreesTypes {OAK, PRIMAL_OAK, SPRUCE, PRIMAL_SPRUCE}
 var firt_tree = true
 var building_preview: Sprite2D
+var destroy_mode_active = false
 
 signal currency_changed
 signal grass_tiles_changed
@@ -108,7 +109,7 @@ func draw_building_preview():
 		building_preview.position.y -= 233
 	else:
 		building_preview.position.y -= 128
-	if not can_place_tree(mouse_pos):
+	if not can_place_tree(mouse_pos) or destroy_mode_active:
 		building_preview.visible = false
 	else:
 		building_preview.visible = true
@@ -230,4 +231,11 @@ func remove_tiles(layer, tiles):
 	for tile in tiles:
 		erase_cell(layer, tile)
 
+func try_to_destroy_tree(mouse_pos):
+	var tile = local_to_map(mouse_pos)
+	if trees.has(tile):
+		var tree = trees[tile]
+		trees.erase(tile)
+		currency_changed.emit(tree.currency_cost/2)
+		tree.queue_free()
 

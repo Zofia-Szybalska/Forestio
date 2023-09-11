@@ -9,12 +9,13 @@ var chosen_tree = null
 var oak_cost = 10
 var spruce_cost = 10
 var mouse_pos
+var destroy_mode_active = false
 
 @export var starting_currency: int = 100
 @export var currency_max: int = 500
 
 @onready var world_auto_tile_map = $WorldAutoTileMap
-@onready var tiles = world_auto_tile_map.get_used_cells(0).size()
+@onready var avaliable_tiles = world_auto_tile_map.get_used_cells(0).size() -  world_auto_tile_map.get_used_cells(world_auto_tile_map.water_layer).size()
 @onready var grass_tiles = world_auto_tile_map.get_used_cells(2).size()
 
 
@@ -31,7 +32,7 @@ func _ready():
 
 func _on_grass_tiles_changed(tiles_count):
 	grass_tiles = tiles_count
-	var value: float = (grass_tiles * 100) / tiles
+	var value: float = (grass_tiles * 100) / avaliable_tiles
 	$UI/LevelUI.change_progress_bar_value(value)
 	if value >= 95:
 		show_level_ended("Nature has won!")
@@ -42,9 +43,11 @@ func _process(_delta):
 	mouse_pos = get_global_mouse_position()
 
 func _unhandled_input(event):
-	if event.is_action_pressed("left_click") and tree_chosen:
+	if event.is_action_pressed("left_click") and tree_chosen and not destroy_mode_active:
 		if world_auto_tile_map.can_place_tree(mouse_pos):
 			place_tree(mouse_pos)
+	elif event.is_action_pressed("left_click") and destroy_mode_active:
+		world_auto_tile_map.try_to_destroy_tree(mouse_pos)
 
 func _on_currency_changed(amount):
 	currency += amount
@@ -93,3 +96,7 @@ func show_level_ended(text):
 
 func _on_level_ended_level_restarted():
 	get_tree().reload_scene()
+
+func _on_level_ui_destroy_mode_changed(value):
+	destroy_mode_active = value
+	world_auto_tile_map.destroy_mode_active = value
