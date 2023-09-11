@@ -10,11 +10,12 @@ var chosen_tree = null:
 		chosen_tree = value
 		_on_chosen_tree_change()
 
-var highlight_layer: int = 5
+var highlight_layer: int = 6
 var base_layer:int = 0
 var grass_layer:int = 3
 var pollution_layer:int = 1
 var water_layer:int = 4
+var rocks_layer:int = 5
 var super_pollution_layer:int = 2
 var trees : Dictionary = {}
 var factories : Dictionary = {}
@@ -76,9 +77,10 @@ func can_place_object(pos):
 	var data = get_cell_tile_data(water_layer, tile)
 	if get_cell_source_id(base_layer, tile) == -1 or trees.has(tile) or factories.has(tile):
 		return false
-	elif data:
-		if data.get_custom_data("water"):
-			return false
+	elif data and data.get_custom_data("water"):
+		return false
+	elif not get_cell_source_id(rocks_layer, tile) == -1:
+		return false
 	else:
 		return true
 
@@ -140,8 +142,7 @@ func place_tree(pos):
 	trees[tile] = tree_instanced
 	tree_instanced.position = map_to_local(tile)
 	tree_instanced.tile = tile
-	set_cell(grass_layer, tile, 5, Vector2i(4,7))
-	set_cells_terrain_connect(grass_layer, [tile],1,0, false)
+	set_cells_terrain_connect(grass_layer, [tile],1,0)
 	$Trees.add_child(tree_instanced)
 	tree_instanced.has_grown.connect(_on_tree_has_grown)
 	tree_instanced.generated_currency.connect(_on_currency_changed)
