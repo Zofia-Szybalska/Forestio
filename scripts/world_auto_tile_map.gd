@@ -31,6 +31,7 @@ signal grass_tiles_changed
 @onready var spruce: PackedScene = preload("res://scenes/trees/spruce.tscn")
 @onready var base_factory: PackedScene = preload("res://scenes/factories/base_factory.tscn")
 @onready var super_factory: PackedScene = preload("res://scenes/factories/super_factory.tscn")
+@onready var river_factory: PackedScene = preload("res://scenes/factories/river_polluting_factory.tscn")
 @onready var primal_oak: PackedScene = preload("res://scenes/trees/primal_oak.tscn")
 @onready var primal_spruce: PackedScene = preload("res://scenes/trees/primal_spruce.tscn")
 @onready var oak_texture = preload("res://assets/trees/OakFullyGrown.png")
@@ -53,7 +54,7 @@ func _process(_delta):
 	if not chosen_tree == null:
 		draw_building_preview()
 	if Input.is_action_pressed("check"):
-		pass
+		print(curr_tile)
 	grass_tiles_changed.emit(get_used_cells(grass_layer).size())
 
 func _on_chosen_tree_change():
@@ -157,17 +158,34 @@ func place_factory(pos, type):
 	if type == "base":
 		factory_instanced = base_factory.instantiate()
 		set_cells_terrain_connect(base_layer, [tile],0,0)
+		factory_instanced.surronding_tiles_radius1 = get_surronding_tiles(tile, 1)
+		factory_instanced.surronding_tiles_radius2  = get_surronding_tiles(tile, 2)
+		factory_instanced.surronding_tiles_radius3  = get_surronding_tiles(tile, 3)
 	elif type == "super":
 		factory_instanced = super_factory.instantiate()
 		set_cells_terrain_connect(super_pollution_layer, [tile],2,0)
+		factory_instanced.surronding_tiles_radius1 = get_surronding_tiles(tile, 1)
+		factory_instanced.surronding_tiles_radius2  = get_surronding_tiles(tile, 2)
+		factory_instanced.surronding_tiles_radius3  = get_surronding_tiles(tile, 3)
+	elif type == "river":
+		factory_instanced = river_factory.instantiate()	
+		var surrounding_tiles = get_surrounding_cells(tile)
+		for t in surrounding_tiles:
+			if not get_cell_source_id(water_layer, t) == -1:
+				var direction =  t - tile
+				factory_instanced.starting_water_tiles = get_water_tiles_line(t, direction)
+				factory_instanced.direction = direction
+				break
+	
 	factories[tile] = factory_instanced
 	factory_instanced.position = map_to_local(tile)
 	factory_instanced.tile = tile
-	factory_instanced.surronding_tiles_radius1 = get_surronding_tiles(tile, 1)
-	factory_instanced.surronding_tiles_radius2  = get_surronding_tiles(tile, 2)
-	factory_instanced.surronding_tiles_radius3  = get_surronding_tiles(tile, 3)
+
 	$Factories.add_child(factory_instanced)
-	factory_instanced.expanded.connect(_on_factory_expanded)
+	if type == "river":
+		factory_instanced.water_polluted.connect(_on_water_polluted)
+	else:
+		factory_instanced.expanded.connect(_on_factory_expanded)
 
 func _on_tree_has_grown(affected_tiles):
 	change_surronding_tiles_tree(affected_tiles)
@@ -178,8 +196,25 @@ func _on_factory_expanded(affected_tiles, pollution_type):
 func _on_currency_changed(amount):
 	currency_changed.emit(amount)
 
+func _on_water_polluted(tiles, direction, tile):
+	change_water_tiles(tiles, "pollution")
+	var water_direction = get_cell_tile_data(water_layer, tiles[0]).get_custom_data("water_direction")
+	for t in tiles:
+		if is_water(t + water_direction):
+			tiles = get_water_tiles_line(t + water_direction, direction)
+			break
+		elif get_cell_source_id(base_layer, t + water_layer):
+			tiles.clear()
+			break
+	factories[tile].water_tiles = tiles
+
 func is_grass(tile):
 	if not get_cell_source_id(grass_layer, tile) == -1:
+		return true
+	return false
+
+func is_water(tile):
+	if not get_cell_source_id(water_layer, tile) == -1:
 		return true
 	return false
 
@@ -187,17 +222,24 @@ func change_surronding_tiles_tree(tiles: Array):
 	var local_tiles = tiles.duplicate()
 	for tile in tiles:
 		var data = get_cell_tile_data(super_pollution_layer, tile)
-		if data and data.get_custom_data("is_polluted"):
+		if not get_cell_source_id(super_pollution_layer, tile) == -1:
 			local_tiles.erase(tile)
 		if factories.has(tile) and not factories[tile].is_destroyed:
 			if factories[tile].is_in_group("base_factories"):
 				factories[tile].destroy()
 			if factories[tile].is_in_group("super_factories") and factories[tile].surronding_tiles_radius1.any(is_grass):
 				factories[tile].destroy()
-
 				local_tiles.append(tile)
 	set_cells_terrain_connect(grass_layer, local_tiles, 1, 0, false)
 	set_cells_terrain_connect(base_layer, local_tiles, 0, 2, false)
+
+func change_water_tiles(tiles, type):
+	if type == "pollution":
+		for tile in tiles:
+			set_cell(water_layer, tile, 9, get_cell_atlas_coords(water_layer, tile))
+	else:
+		for tile in tiles:
+			set_cell(water_layer, tile, 8, get_cell_atlas_coords(water_layer, tile))
 
 func change_surronding_tiles_polution(affected_tiles, pollution_type):
 	for tile in affected_tiles:
@@ -227,6 +269,26 @@ func get_surronding_tiles(tile, radius):
 				continue
 			surronding_tiles.append(target_tile)
 	return surronding_tiles
+
+func get_water_tiles_line(tile, direction):
+	var water_tiles = [tile]
+	var count = 1
+	while true:
+		var next_tile = tile + direction * count
+		if not get_cell_source_id(water_layer, next_tile) == -1:
+			water_tiles.append(next_tile)
+			count += 1
+		else:
+			break
+	count = -1
+	while true:
+		var next_tile = tile + direction * count
+		if not get_cell_source_id(water_layer, next_tile) == -1:
+			water_tiles.append(next_tile)
+			count -= 1
+		else:
+			break
+	return water_tiles
 
 func remove_tiles(layer, tiles):
 	for tile in tiles:

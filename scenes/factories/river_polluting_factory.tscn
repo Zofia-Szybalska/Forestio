@@ -1,0 +1,55 @@
+[gd_scene load_steps=9 format=3 uid="uid://dm5ktgdj4c10c"]
+
+[ext_resource type="PackedScene" uid="uid://dqnsyce5pimlc" path="res://scenes/factory.tscn" id="1_chnvd"]
+[ext_resource type="Script" path="res://scripts/river_polluting_factory.gd" id="2_3ac71"]
+[ext_resource type="Texture2D" uid="uid://3vhxvocg72x8" path="res://assets/factories/RiverPollutingFactoryDestroyed.png" id="2_wq11r"]
+[ext_resource type="Texture2D" uid="uid://bxv4smw6cgsel" path="res://assets/factories/RiverPollutingFactory.png" id="3_nraor"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_n7t01"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_wq11r")
+}],
+"loop": true,
+"name": &"destroyed",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_nraor")
+}],
+"loop": true,
+"name": &"working",
+"speed": 5.0
+}]
+
+[sub_resource type="Gradient" id="Gradient_5clei"]
+offsets = PackedFloat32Array(0.616352, 1)
+colors = PackedColorArray(0.252028, 0.252028, 0.252028, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_bujpb"]
+gradient = SubResource("Gradient_5clei")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_o1fb4"]
+lifetime_randomness = 0.7
+direction = Vector3(0, 0, 0)
+gravity = Vector3(0, -100, 0)
+linear_accel_max = 58.88
+scale_min = 2.0
+scale_max = 15.0
+color_ramp = SubResource("GradientTexture1D_bujpb")
+
+[node name="RiverPollutingFactory" instance=ExtResource("1_chnvd")]
+script = ExtResource("2_3ac71")
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_n7t01")
+animation = &"destroyed"
+
+[node name="ExpandTimer" parent="." index="1"]
+wait_time = 5.0
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="Smoke" index="0"]
+position = Vector2(10, -277)
+process_material = SubResource("ParticleProcessMaterial_o1fb4")

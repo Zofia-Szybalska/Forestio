@@ -28,7 +28,7 @@ animations = [{
 offsets = PackedFloat32Array(0.616352, 1)
 colors = PackedColorArray(0.252028, 0.252028, 0.252028, 1, 1, 1, 1, 0)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_bujpb"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_yiqto"]
 gradient = SubResource("Gradient_uhvnv")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_yygdb"]
@@ -38,7 +38,7 @@ gravity = Vector3(0, -100, 0)
 linear_accel_max = 58.88
 scale_min = 2.0
 scale_max = 15.0
-color_ramp = SubResource("GradientTexture1D_bujpb")
+color_ramp = SubResource("GradientTexture1D_yiqto")
 
 [node name="SuperFactory" groups=["super_factories"] instance=ExtResource("1_8bwpb")]
 script = ExtResource("2_tohm4")

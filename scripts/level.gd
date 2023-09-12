@@ -29,6 +29,7 @@ func _ready():
 	place_factory(Vector2(-3033.333, 713.3333), "base")
 	place_factory(Vector2(700, 246.6665), "base")
 	place_factory(Vector2(1306.667, -1440), "super")
+	place_factory(world_auto_tile_map.map_to_local(Vector2(-9,1)), "river")
 
 func _on_grass_tiles_changed(tiles_count):
 	grass_tiles = tiles_count
