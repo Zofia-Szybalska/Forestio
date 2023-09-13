@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://c5hc7we2rc8sx"]
+[gd_scene load_steps=10 format=3 uid="uid://c5hc7we2rc8sx"]
 
 [ext_resource type="PackedScene" uid="uid://dqnsyce5pimlc" path="res://scenes/factory.tscn" id="1_8bwpb"]
 [ext_resource type="Script" path="res://scripts/super_factory.gd" id="2_tohm4"]
 [ext_resource type="Texture2D" uid="uid://detxb0jbyq3mh" path="res://assets/factories/SuperFactory.png" id="2_w13f2"]
 [ext_resource type="Texture2D" uid="uid://bjoo3a7ghtj4s" path="res://assets/factories/DestoyedSuperfactory.png" id="3_wj42b"]
+[ext_resource type="Texture2D" uid="uid://jbtfb8up5n6w" path="res://assets/Smoke.png" id="5_cy3ex"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_0caka"]
 animations = [{
@@ -24,32 +25,41 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="Gradient" id="Gradient_uhvnv"]
-offsets = PackedFloat32Array(0.616352, 1)
-colors = PackedColorArray(0.252028, 0.252028, 0.252028, 1, 1, 1, 1, 0)
+[sub_resource type="Gradient" id="Gradient_oaqnc"]
+offsets = PackedFloat32Array(0.339623, 1)
+colors = PackedColorArray(0.490196, 0.490196, 0.490196, 1, 1, 1, 1, 0)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_yiqto"]
-gradient = SubResource("Gradient_uhvnv")
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_x8tj2"]
+gradient = SubResource("Gradient_oaqnc")
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_yygdb"]
-lifetime_randomness = 0.7
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_828ct"]
+lifetime_randomness = 0.5
 direction = Vector3(0, 0, 0)
 gravity = Vector3(0, -100, 0)
-linear_accel_max = 58.88
-scale_min = 2.0
-scale_max = 15.0
-color_ramp = SubResource("GradientTexture1D_yiqto")
+initial_velocity_min = 10.0
+initial_velocity_max = 30.0
+radial_accel_min = 10.0
+radial_accel_max = 100.0
+scale_min = 0.3
+scale_max = 0.4
+color_ramp = SubResource("GradientTexture1D_x8tj2")
+hue_variation_min = 0.43
+hue_variation_max = 0.45
+turbulence_noise_strength = 13.34
 
 [node name="SuperFactory" groups=["super_factories"] instance=ExtResource("1_8bwpb")]
 script = ExtResource("2_tohm4")
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 sprite_frames = SubResource("SpriteFrames_0caka")
-animation = &"destroyed"
 
 [node name="ExpandTimer" parent="." index="1"]
 wait_time = 20.0
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="Smoke" index="0"]
-position = Vector2(0, -250)
-process_material = SubResource("ParticleProcessMaterial_yygdb")
+position = Vector2(1, -286)
+amount = 20
+process_material = SubResource("ParticleProcessMaterial_828ct")
+texture = ExtResource("5_cy3ex")
+lifetime = 1.5
+draw_order = 2

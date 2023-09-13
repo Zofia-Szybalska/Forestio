@@ -34,7 +34,7 @@ signal grass_tiles_changed
 @onready var river_factory: PackedScene = preload("res://scenes/factories/river_polluting_factory.tscn")
 @onready var primal_oak: PackedScene = preload("res://scenes/trees/primal_oak.tscn")
 @onready var primal_spruce: PackedScene = preload("res://scenes/trees/primal_spruce.tscn")
-@onready var oak_texture = preload("res://assets/trees/OakFullyGrown.png")
+@onready var oak_texture = preload("res://assets/trees/SmallerOak.png")
 @onready var spruce_texture = preload("res://assets/trees/Spruce.png")
 
 func _ready():
@@ -109,13 +109,14 @@ func draw_highlight():
 func draw_building_preview():
 	building_preview.position = map_to_local(curr_tile)
 	if chosen_tree == TreesTypes.PRIMAL_OAK or chosen_tree == TreesTypes.PRIMAL_SPRUCE:
-		building_preview.position.y -= 233
+		building_preview.position.y -= 90
 	else:
-		building_preview.position.y -= 128
+		building_preview.position.y -= 100
 	if not can_place_tree(mouse_pos) or destroy_mode_active:
 		building_preview.visible = false
 	else:
 		building_preview.visible = true
+	print(building_preview.scale)
 
 func place_tree(pos):
 	var tile = local_to_map(pos)
@@ -196,14 +197,14 @@ func _on_factory_expanded(affected_tiles, pollution_type):
 func _on_currency_changed(amount):
 	currency_changed.emit(amount)
 
-func _on_water_polluted(tiles, direction, tile):
+func _on_water_polluted(tiles:Array, direction, tile):
 	change_water_tiles(tiles, "pollution")
-	var water_direction = get_cell_tile_data(water_layer, tiles[0]).get_custom_data("water_direction")
+	var water_direction = get_cell_tile_data(water_layer, tiles.front()).get_custom_data("water_direction")
 	for t in tiles:
 		if is_water(t + water_direction):
 			tiles = get_water_tiles_line(t + water_direction, direction)
 			break
-		elif get_cell_source_id(base_layer, t + water_layer):
+		elif get_cell_source_id(base_layer, t + water_direction):
 			tiles.clear()
 			break
 	factories[tile].water_tiles = tiles

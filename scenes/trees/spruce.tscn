@@ -47,7 +47,7 @@ script = ExtResource("2_qscq1")
 currency_per_second = 1
 
 [node name="AnimatedSprite2D" parent="." index="0"]
-position = Vector2(0, -128)
+position = Vector2(0, -90)
 sprite_frames = SubResource("SpriteFrames_5ooct")
 animation = &"fully_grown"
 

@@ -2,8 +2,8 @@ extends Node2D
 
 var tile
 var is_destroyed = false
-var water_tiles = []
-var starting_water_tiles = []
+var water_tiles: Array = []
+var starting_water_tiles: Array = []
 var direction: Vector2i
 
 @export var curr_expansion_radius: int = 1
@@ -22,5 +22,8 @@ func destroy():
 	$AnimatedSprite2D.play("destroyed")
 
 func _on_expand_timer_timeout():
-	water_polluted.emit(water_tiles, direction, tile)
+	if water_tiles.size() == 0:
+		water_polluted.emit(starting_water_tiles, direction, tile)
+	else:
+		water_polluted.emit(water_tiles, direction, tile)
 

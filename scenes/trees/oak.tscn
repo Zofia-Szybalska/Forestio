@@ -1,16 +1,16 @@
 [gd_scene load_steps=7 format=3 uid="uid://m8opab1ixxlk"]
 
 [ext_resource type="PackedScene" uid="uid://cl2jfbx56yjar" path="res://scenes/trees/tree.tscn" id="1_wdg8l"]
-[ext_resource type="Texture2D" uid="uid://dtf88hotiyp7a" path="res://assets/trees/OakFullyGrown.png" id="2_fih8q"]
+[ext_resource type="Texture2D" uid="uid://ce8hw7xn38fdo" path="res://assets/trees/SmallerOak.png" id="2_msv8d"]
 [ext_resource type="Texture2D" uid="uid://4kkwsjhgvt8h" path="res://assets/trees/OakSeedling.png" id="3_ugjqd"]
-[ext_resource type="Texture2D" uid="uid://bdhwur06ro6er" path="res://assets/trees/OakFullyGrownDead.png" id="3_wpbon"]
+[ext_resource type="Texture2D" uid="uid://caf7ek7jim456" path="res://assets/trees/SmallerOakFullyGrownDead.png" id="3_v502q"]
 [ext_resource type="Texture2D" uid="uid://bpqufpq013xh" path="res://assets/trees/OakSeedlingDead.png" id="5_aa3wy"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_xaoj7"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_fih8q")
+"texture": ExtResource("2_msv8d")
 }],
 "loop": true,
 "name": &"fully_grown",
@@ -18,7 +18,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("3_wpbon")
+"texture": ExtResource("3_v502q")
 }],
 "loop": true,
 "name": &"fully_grown_dead",
@@ -44,8 +44,9 @@ animations = [{
 [node name="Oak" groups=["oaks"] instance=ExtResource("1_wdg8l")]
 
 [node name="AnimatedSprite2D" parent="." index="0"]
-position = Vector2(0, -128)
+position = Vector2(0, -100)
 sprite_frames = SubResource("SpriteFrames_xaoj7")
+animation = &"fully_grown"
 
 [node name="GrowthTimer" parent="." index="2"]
 wait_time = 10.0

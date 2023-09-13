@@ -1,13 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://bwehucvlalo2p"]
+[gd_scene load_steps=5 format=3 uid="uid://bwehucvlalo2p"]
 
 [ext_resource type="PackedScene" uid="uid://cl2jfbx56yjar" path="res://scenes/trees/tree.tscn" id="1_luysg"]
 [ext_resource type="Texture2D" uid="uid://dtf88hotiyp7a" path="res://assets/trees/OakFullyGrown.png" id="2_22r3o"]
+[ext_resource type="Texture2D" uid="uid://ce8hw7xn38fdo" path="res://assets/trees/SmallerOak.png" id="2_o5e1x"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_qy3n5"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_22r3o")
+"texture": ExtResource("2_o5e1x")
 }],
 "loop": true,
 "name": &"fully_grown",
@@ -25,7 +26,7 @@ animations = [{
 [node name="PrimalOak" groups=["oaks"] instance=ExtResource("1_luysg")]
 
 [node name="AnimatedSprite2D" parent="." index="0"]
-position = Vector2(0, -233)
-scale = Vector2(2, 2)
+position = Vector2(0, -185)
+scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_qy3n5")
 animation = &"fully_grown"
