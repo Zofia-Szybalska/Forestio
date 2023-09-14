@@ -53,7 +53,7 @@ func _process(_delta):
 	draw_highlight()
 	if not chosen_tree == null:
 		draw_building_preview()
-	if Input.is_action_pressed("check"):
+	if Input.is_action_just_pressed("check"):
 		print(curr_tile)
 	grass_tiles_changed.emit(get_used_cells(grass_layer).size())
 

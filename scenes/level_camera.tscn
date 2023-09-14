@@ -4,4 +4,5 @@
 
 [node name="LevelCamera" type="Camera2D"]
 zoom = Vector2(0.6, 0.6)
+position_smoothing_enabled = true
 script = ExtResource("1_a4uok")
