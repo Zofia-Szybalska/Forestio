@@ -5,5 +5,5 @@
 [node name="PrimalSpruce" instance=ExtResource("1_bjff8")]
 
 [node name="AnimatedSprite2D" parent="." index="0"]
-position = Vector2(0, -190)
+position = Vector2(0, -170)
 scale = Vector2(1.5, 1.5)

@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://8h8k8gw8mkph"]
+[gd_scene load_steps=7 format=3 uid="uid://8h8k8gw8mkph"]
 
 [ext_resource type="Script" path="res://scripts/level_ui.gd" id="1_mu2s0"]
 [ext_resource type="Texture2D" uid="uid://j40gt7lkkqp8" path="res://assets/NatureIcon.png" id="2_x317g"]
 [ext_resource type="Texture2D" uid="uid://dtf88hotiyp7a" path="res://assets/trees/OakFullyGrown.png" id="3_cc277"]
 [ext_resource type="Texture2D" uid="uid://denqbt81mni4s" path="res://assets/trees/Spruce.png" id="4_qo8nr"]
+[ext_resource type="Texture2D" uid="uid://bpfrvjk36bqio" path="res://assets/trees/FernFullyGrown.png" id="5_w2pnu"]
 
 [sub_resource type="Theme" id="Theme_iydsi"]
 
@@ -109,6 +110,14 @@ icon_alignment = 1
 vertical_icon_alignment = 0
 expand_icon = true
 
+[node name="FernButton" type="Button" parent="PanelContainer/HBoxContainer"]
+layout_mode = 2
+text = "Fern"
+icon = ExtResource("5_w2pnu")
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
 [node name="DestroyButton" type="Button" parent="PanelContainer/HBoxContainer"]
 layout_mode = 2
 text = "Destroy"
@@ -117,4 +126,5 @@ text = "Destroy"
 [connection signal="pressed" from="PanelContainer/HBoxContainer/OakButton" to="." method="_on_oak_button_pressed"]
 [connection signal="pressed" from="PanelContainer/HBoxContainer/PrimalSpruceButton" to="." method="_on_primal_spruce_button_pressed"]
 [connection signal="pressed" from="PanelContainer/HBoxContainer/SpruceButton" to="." method="_on_spruce_button_pressed"]
+[connection signal="pressed" from="PanelContainer/HBoxContainer/FernButton" to="." method="_on_fern_button_pressed"]
 [connection signal="pressed" from="PanelContainer/HBoxContainer/DestroyButton" to="." method="_on_destroy_button_pressed"]

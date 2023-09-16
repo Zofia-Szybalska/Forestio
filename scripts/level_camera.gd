@@ -6,7 +6,7 @@ var zoom_max: float = 1.0
 var zoom_margin: float = 0.1
 var zoom_factor: float = 1.0
 var drag_sensitivity: float = 1.0
-var move_sensitivity: float = 100.0
+var move_sensitivity: float = 500.0
 var zooming = false
 var zoom_pos = Vector2()
 

@@ -7,6 +7,7 @@ signal generated_currency
 @export var currency_cost = 10
 var growth_state = 0
 var tile
+var can_be_killed = true
 var surronding_tiles_radius1 = []
 var surronding_tiles_radius2 = []
 var surronding_tiles_radius3 = []

@@ -10,17 +10,18 @@ var chosen_tree = null:
 		chosen_tree = value
 		_on_chosen_tree_change()
 
-var highlight_layer: int = 6
+var highlight_layer: int = 7
 var base_layer:int = 0
-var grass_layer:int = 3
+var grass_layer:int = 5
 var pollution_layer:int = 1
 var water_layer:int = 4
-var rocks_layer:int = 5
+var rocks_layer:int = 6
 var super_pollution_layer:int = 2
+var eternal_grass_layer:int = 3
 var trees : Dictionary = {}
 var factories : Dictionary = {}
-enum TreesTypes {OAK, PRIMAL_OAK, SPRUCE, PRIMAL_SPRUCE}
-var firt_tree = true
+enum TreesTypes {OAK, PRIMAL_OAK, SPRUCE, PRIMAL_SPRUCE, FERN}
+var first_tree = true
 var building_preview: Sprite2D
 var destroy_mode_active = false
 
@@ -34,8 +35,10 @@ signal grass_tiles_changed
 @onready var river_factory: PackedScene = preload("res://scenes/factories/river_polluting_factory.tscn")
 @onready var primal_oak: PackedScene = preload("res://scenes/trees/primal_oak.tscn")
 @onready var primal_spruce: PackedScene = preload("res://scenes/trees/primal_spruce.tscn")
+@onready var fern: PackedScene = preload("res://scenes/trees/fern.tscn")
 @onready var oak_texture = preload("res://assets/trees/SmallerOak.png")
 @onready var spruce_texture = preload("res://assets/trees/Spruce.png")
+@onready var fern_texture = preload("res://assets/trees/FernFullyGrown.png")
 
 func _ready():
 	mouse_pos = get_global_mouse_position()
@@ -60,18 +63,22 @@ func _process(_delta):
 func _on_chosen_tree_change():
 	if chosen_tree == TreesTypes.PRIMAL_OAK:
 		building_preview.texture = oak_texture
-		building_preview.scale = Vector2(2,2)
+		building_preview.scale = Vector2(1.5,1.5)
 	elif chosen_tree == TreesTypes.OAK:
 		building_preview.texture = oak_texture
-		building_preview.scale = Vector2(1,1)
+		building_preview.scale = Vector2(0.75,0.75)
 	elif chosen_tree == TreesTypes.PRIMAL_SPRUCE:
 		building_preview.texture = spruce_texture
-		building_preview.scale = Vector2(2,2)
+		building_preview.scale = Vector2(1.5,1.5)
 	elif chosen_tree == TreesTypes.SPRUCE:
 		building_preview.texture = spruce_texture
-		building_preview.scale = Vector2(1,1)
+		building_preview.scale = Vector2(0.75,0.75)
+	elif chosen_tree == TreesTypes.FERN:
+		building_preview.texture = fern_texture
+		building_preview.scale = Vector2(1, 1)
 	else:
 		building_preview.texture = null
+	
 
 func can_place_object(pos):
 	var tile = local_to_map(pos)
@@ -89,11 +96,12 @@ func can_place_tree(pos):
 	if not can_place_object(pos):
 		return false
 	var tile = local_to_map(pos)
+	if not get_cell_source_id(eternal_grass_layer, tile) == -1:
+		return true
 	var data = get_cell_tile_data(base_layer, tile)
 	if data and data.get_custom_data("is_polluted"):
 		return false
-	data = get_cell_tile_data(super_pollution_layer, tile)
-	if data and data.get_custom_data("is_polluted"):
+	if not get_cell_source_id(super_pollution_layer, tile) == -1:
 		return false
 	return true
 
@@ -109,14 +117,15 @@ func draw_highlight():
 func draw_building_preview():
 	building_preview.position = map_to_local(curr_tile)
 	if chosen_tree == TreesTypes.PRIMAL_OAK or chosen_tree == TreesTypes.PRIMAL_SPRUCE:
-		building_preview.position.y -= 90
-	else:
+		building_preview.position.y -= 170
+	elif chosen_tree == TreesTypes.OAK or chosen_tree == TreesTypes.SPRUCE:
 		building_preview.position.y -= 100
+	elif chosen_tree == TreesTypes.FERN:
+		building_preview.position.y -= 25
 	if not can_place_tree(mouse_pos) or destroy_mode_active:
 		building_preview.visible = false
 	else:
 		building_preview.visible = true
-	print(building_preview.scale)
 
 func place_tree(pos):
 	var tile = local_to_map(pos)
@@ -127,7 +136,7 @@ func place_tree(pos):
 		tree_instanced.surronding_tiles_radius1 = get_surronding_tiles(tile, 1)
 		tree_instanced.surronding_tiles_radius2 = get_surronding_tiles(tile, 2)
 		tree_instanced.surronding_tiles_radius3 = get_surronding_tiles(tile, 3)
-	elif chosen_tree == TreesTypes.OAK or firt_tree:
+	elif chosen_tree == TreesTypes.OAK or first_tree:
 		tree_instanced = oak.instantiate()
 		tree_instanced.surronding_tiles_radius1 = get_surronding_tiles(tile, 1)
 		tree_instanced.surronding_tiles_radius2 = get_surronding_tiles(tile, 2)
@@ -140,18 +149,23 @@ func place_tree(pos):
 		tree_instanced = spruce.instantiate()
 		tree_instanced.surronding_tiles_radius1 = get_surronding_tiles(tile, 1)
 		tree_instanced.surronding_tiles_radius2 = get_surronding_tiles(tile, 2)
-	
+	elif chosen_tree == TreesTypes.FERN:
+		tree_instanced = fern.instantiate()
+		tree_instanced.surronding_tiles_radius1 = get_surronding_tiles(tile, 1)
+		set_cells_terrain_connect(eternal_grass_layer, [tile],1,0)
 	trees[tile] = tree_instanced
 	tree_instanced.position = map_to_local(tile)
 	tree_instanced.tile = tile
 	set_cells_terrain_connect(grass_layer, [tile],1,0)
 	$Trees.add_child(tree_instanced)
-	tree_instanced.has_grown.connect(_on_tree_has_grown)
-	tree_instanced.generated_currency.connect(_on_currency_changed)
-#	grass_tiles_changed.emit(get_used_cells(grass_layer).size())
-	if firt_tree:
+	if not chosen_tree == TreesTypes.FERN:
+		tree_instanced.has_grown.connect(_on_tree_has_grown)
+		tree_instanced.generated_currency.connect(_on_currency_changed)
+	else:
+		tree_instanced.has_grown.connect(_on_fern_has_grown)
+	if first_tree:
 		tree_instanced.fully_grown()
-		firt_tree = false
+		first_tree = false
 
 func place_factory(pos, type):
 	var tile = local_to_map(pos)
@@ -191,6 +205,15 @@ func place_factory(pos, type):
 func _on_tree_has_grown(affected_tiles):
 	change_surronding_tiles_tree(affected_tiles)
 
+func _on_fern_has_grown(affected_tiles):
+	for tile in affected_tiles:
+		if factories.has(tile) and not factories[tile].is_destroyed:
+			factories[tile].destroy()
+	set_cells_terrain_connect(eternal_grass_layer, affected_tiles, 1, 0, false)
+	set_cells_terrain_connect(grass_layer, affected_tiles, 1, 0, false)
+	set_cells_terrain_connect(base_layer, affected_tiles, 0, 2, false)
+	set_cells_terrain_connect(super_pollution_layer, affected_tiles, 2, -1, false)
+
 func _on_factory_expanded(affected_tiles, pollution_type):
 	change_surronding_tiles_polution(affected_tiles, pollution_type)
 
@@ -222,7 +245,6 @@ func is_water(tile):
 func change_surronding_tiles_tree(tiles: Array):
 	var local_tiles = tiles.duplicate()
 	for tile in tiles:
-		var data = get_cell_tile_data(super_pollution_layer, tile)
 		if not get_cell_source_id(super_pollution_layer, tile) == -1:
 			local_tiles.erase(tile)
 		if factories.has(tile) and not factories[tile].is_destroyed:
@@ -242,14 +264,20 @@ func change_water_tiles(tiles, type):
 		for tile in tiles:
 			set_cell(water_layer, tile, 8, get_cell_atlas_coords(water_layer, tile))
 
-func change_surronding_tiles_polution(affected_tiles, pollution_type):
+func change_surronding_tiles_polution(affected_tiles: Array, pollution_type):
+	var local_tiles = affected_tiles.duplicate()
 	for tile in affected_tiles:
+		if not get_cell_source_id(eternal_grass_layer, tile) == -1:
+			local_tiles.erase(tile)
 		if tile in trees:
 			if trees[tile].is_in_group("oaks"):
 				trees[tile].remove_from_group("oaks")
 			if trees[tile].is_in_group("spruces"):
 				trees[tile].remove_from_group("spruces")
+			if trees[tile].is_in_group("ferns"):
+				continue
 			trees[tile].kill()
+	affected_tiles = local_tiles
 	if pollution_type == "pollution":
 		set_cells_terrain_connect(base_layer, affected_tiles, 0, 0)
 	elif pollution_type == "super_pollution":
@@ -295,8 +323,8 @@ func remove_tiles(layer, tiles):
 	for tile in tiles:
 		erase_cell(layer, tile)
 
-func try_to_destroy_tree(mouse_pos):
-	var tile = local_to_map(mouse_pos)
+func try_to_destroy_tree(pos):
+	var tile = local_to_map(pos)
 	if trees.has(tile):
 		var tree = trees[tile]
 		trees.erase(tile)

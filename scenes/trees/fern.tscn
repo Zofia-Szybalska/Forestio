@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=3 uid="uid://rd7afx8ltyis"]
+
+[ext_resource type="PackedScene" uid="uid://cl2jfbx56yjar" path="res://scenes/trees/tree.tscn" id="1_20av8"]
+[ext_resource type="Script" path="res://scripts/fern.gd" id="2_c71gr"]
+[ext_resource type="Texture2D" uid="uid://bpfrvjk36bqio" path="res://assets/trees/FernFullyGrown.png" id="3_7kty5"]
+[ext_resource type="Texture2D" uid="uid://b7mw0yp3nmnh7" path="res://assets/trees/FernSeedling.png" id="4_74cqw"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_o7c0v"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_7kty5")
+}],
+"loop": true,
+"name": &"fully_grown",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_74cqw")
+}],
+"loop": true,
+"name": &"seedling",
+"speed": 5.0
+}]
+
+[node name="Fern" groups=["ferns"] instance=ExtResource("1_20av8")]
+script = ExtResource("2_c71gr")
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+position = Vector2(0, -25)
+scale = Vector2(1, 1)
+sprite_frames = SubResource("SpriteFrames_o7c0v")
+animation = &"fully_grown"
+
+[node name="CurrencyTimer" parent="." index="1"]
+autostart = false

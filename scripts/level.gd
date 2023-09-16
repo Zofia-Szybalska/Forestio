@@ -1,13 +1,14 @@
 extends Node2D
 
 var currency
-enum TreesTypes {OAK, PRIMAL_OAK, SPRUCE, PRIMAL_SPRUCE}
+enum TreesTypes {OAK, PRIMAL_OAK, SPRUCE, PRIMAL_SPRUCE, FERN}
 var primal_oak_placed = false
 var primal_spruce_placed = false
 var tree_chosen: bool = true
 var chosen_tree = null
 var oak_cost = 10
 var spruce_cost = 10
+var fern_cost = 10
 var mouse_pos
 var destroy_mode_active = false
 
@@ -76,6 +77,10 @@ func place_tree(pos):
 	elif chosen_tree == TreesTypes.SPRUCE and primal_spruce_placed:
 		if currency >= spruce_cost:
 			_on_currency_changed(-spruce_cost)
+			world_auto_tile_map.place_tree(pos)
+	elif chosen_tree == TreesTypes.FERN:
+		if currency >= fern_cost:
+			_on_currency_changed(-fern_cost)
 			world_auto_tile_map.place_tree(pos)
 	else:
 		return

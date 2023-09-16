@@ -1,6 +1,6 @@
 extends CanvasLayer
 
-enum TreesTypes {OAK, PRIMAL_OAK, SPRUCE, PRIMAL_SPRUCE}
+enum TreesTypes {OAK, PRIMAL_OAK, SPRUCE, PRIMAL_SPRUCE, FERN}
 
 var cross = load("res://assets/CrossCursor.png")
 
@@ -51,3 +51,7 @@ func deactivate_destroy():
 func _on_destroy_button_pressed():
 	Input.set_custom_mouse_cursor(cross, Input.CURSOR_ARROW, Vector2(16,16))
 	destroy_mode_changed.emit(true)
+
+func _on_fern_button_pressed():
+	chosen_tree_changed.emit(TreesTypes.FERN)
+	deactivate_destroy()
