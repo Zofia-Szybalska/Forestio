@@ -4,7 +4,7 @@ var currency
 enum TreesTypes {OAK, PRIMAL_OAK, SPRUCE, PRIMAL_SPRUCE, FERN}
 var primal_oak_placed = false
 var primal_spruce_placed = false
-var tree_chosen: bool = true
+var tree_chosen: bool = false
 var chosen_tree = null
 var oak_cost = 10
 var spruce_cost = 10
@@ -48,6 +48,9 @@ func _unhandled_input(event):
 	if event.is_action_pressed("left_click") and tree_chosen and not destroy_mode_active:
 		if world_auto_tile_map.can_place_tree(mouse_pos):
 			place_tree(mouse_pos)
+	elif event.is_action_pressed("left_click") and not tree_chosen:
+		var info_array = world_auto_tile_map.get_tile_info(mouse_pos)
+		$UI/LevelUI.show_info(info_array)
 	elif event.is_action_pressed("left_click") and destroy_mode_active:
 		world_auto_tile_map.try_to_destroy_tree(mouse_pos)
 
@@ -106,3 +109,6 @@ func _on_level_ended_level_restarted():
 func _on_level_ui_destroy_mode_changed(value):
 	destroy_mode_active = value
 	world_auto_tile_map.destroy_mode_active = value
+
+func _on_world_auto_tile_map_game_lost(text):
+	show_level_ended(text)

@@ -26,6 +26,8 @@ animations = [{
 
 [node name="Fern" groups=["ferns"] instance=ExtResource("1_20av8")]
 script = ExtResource("2_c71gr")
+currency_generated = 0
+growth_time = 2
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 position = Vector2(0, -25)

@@ -28,6 +28,8 @@ animations = [{
 
 [node name="RiverPollutingFactory" instance=ExtResource("1_chnvd")]
 script = ExtResource("2_3ac71")
+curr_expansion_radius = "rivers next to it."
+expand_time = 5
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 sprite_frames = SubResource("SpriteFrames_n7t01")

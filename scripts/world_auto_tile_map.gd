@@ -27,6 +27,7 @@ var destroy_mode_active = false
 
 signal currency_changed
 signal grass_tiles_changed
+signal game_lost
 
 @onready var oak: PackedScene = preload("res://scenes/trees/oak.tscn")
 @onready var spruce: PackedScene = preload("res://scenes/trees/spruce.tscn")
@@ -56,8 +57,6 @@ func _process(_delta):
 	draw_highlight()
 	if not chosen_tree == null:
 		draw_building_preview()
-	if Input.is_action_just_pressed("check"):
-		print(curr_tile)
 	grass_tiles_changed.emit(get_used_cells(grass_layer).size())
 
 func _on_chosen_tree_change():
@@ -78,7 +77,54 @@ func _on_chosen_tree_change():
 		building_preview.scale = Vector2(1, 1)
 	else:
 		building_preview.texture = null
-	
+
+func get_tile_type(tile):
+	var rocks = ""
+	if not get_cell_source_id(rocks_layer, tile) == -1:
+		rocks = " Because of the rocks nothing can be built on this tile."
+	if not get_cell_source_id(water_layer, tile) == -1:
+		if get_cell_tile_data(water_layer, tile).get_custom_data("is_polluted"):
+			return "polluted water it can be cleanse with algae." + rocks
+		else:
+			return "water that is not polluted." + rocks
+	elif not get_cell_source_id(eternal_grass_layer, tile) == -1:
+		return "grass that cannot be polluted." + rocks
+	elif not get_cell_source_id(super_pollution_layer, tile) == -1:
+		return "super pollution that can be remove only with fern." + rocks
+	elif not get_cell_source_id(grass_layer, tile) == -1:
+		return "normal grass that can be normally polluted." + rocks
+	elif get_cell_tile_data(base_layer, tile).get_custom_data("is_polluted"):
+		return "normal pollution that can be removed by any tree." + rocks
+	else:
+		return "base tile it's not polluted and grass don't grow on it." + rocks
+
+func get_tile_info(pos):
+	var tile = local_to_map(pos)
+	var info_array: Array = []
+	info_array.append(get_tile_type(tile))
+	if tile in trees:
+		var tree = trees[tile]
+		info_array.append("%s points in %s seconds." % [tree.currency_generated, tree.currency_generation_time])
+		info_array.append(tree.type)
+		info_array.append("%s tile radius." % tree.max_radius)
+		info_array.append("currently %s tiles." % (tree.growth_state - 1) if tree.growth_state > 0 else 0)
+		info_array.append(tree.get_time_to_next_expansion())
+		info_array.append(tree.growth_time)
+	elif tile in factories:
+		var factory = factories[tile]
+		info_array.append("0 points in 1 second.")
+		info_array.append(factory.type)
+		info_array.append("%s tile radius." % factory.max_radius)
+		info_array.append(("currently %s tiles." % (factory.curr_expansion_radius-1)) if factory.curr_expansion_radius is int else factory.curr_expansion_radius)
+		info_array.append(factory.get_time_to_next_expansion())
+		info_array.append(factory.expand_time)
+	else:
+		info_array.append("0 points in 1 second.")
+		info_array.append("None")
+		info_array.append("None")
+		info_array.append("None")
+		info_array.append("None")
+	return info_array
 
 func can_place_object(pos):
 	var tile = local_to_map(pos)
@@ -136,6 +182,7 @@ func place_tree(pos):
 		tree_instanced.surronding_tiles_radius1 = get_surronding_tiles(tile, 1)
 		tree_instanced.surronding_tiles_radius2 = get_surronding_tiles(tile, 2)
 		tree_instanced.surronding_tiles_radius3 = get_surronding_tiles(tile, 3)
+		tree_instanced.game_lost.connect(_on_game_lost)
 	elif chosen_tree == TreesTypes.OAK or first_tree:
 		tree_instanced = oak.instantiate()
 		tree_instanced.surronding_tiles_radius1 = get_surronding_tiles(tile, 1)
@@ -145,6 +192,7 @@ func place_tree(pos):
 		tree_instanced = primal_spruce.instantiate()
 		tree_instanced.surronding_tiles_radius1 = get_surronding_tiles(tile, 1)
 		tree_instanced.surronding_tiles_radius2 = get_surronding_tiles(tile, 2)
+		tree_instanced.game_lost.connect(_on_game_lost)
 	elif chosen_tree == TreesTypes.SPRUCE:
 		tree_instanced = spruce.instantiate()
 		tree_instanced.surronding_tiles_radius1 = get_surronding_tiles(tile, 1)
@@ -331,3 +379,5 @@ func try_to_destroy_tree(pos):
 		currency_changed.emit(tree.currency_cost/2)
 		tree.queue_free()
 
+func _on_game_lost(text):
+	game_lost.emit(text)

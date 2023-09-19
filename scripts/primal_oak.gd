@@ -2,6 +2,7 @@ extends Node2D
 
 signal has_grown
 signal generated_currency
+signal game_lost
 
 @export var currency_generated:int = 2
 @export var currency_generation_time: int = 1
@@ -14,7 +15,7 @@ var surronding_tiles_radius1 = []
 var surronding_tiles_radius2 = []
 var surronding_tiles_radius3 = []
 var max_radius = 3
-var type = "oak tree"
+var type = "primal oak tree"
 
 func _ready():
 	$AnimatedSprite2D.play("seedling")
@@ -45,6 +46,7 @@ func _on_growth_timer_timeout():
 func kill():
 	$CurrencyTimer.stop()
 	$GrowthTimer.stop()
+	game_lost.emit("Your Primal Oak was destroyed, you lost!")
 	if growth_state < 1:
 		$AnimatedSprite2D.play("seedling_dead")
 	else:

@@ -49,6 +49,7 @@ turbulence_noise_strength = 13.34
 
 [node name="SuperFactory" groups=["super_factories"] instance=ExtResource("1_8bwpb")]
 script = ExtResource("2_tohm4")
+expand_time = 20
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 sprite_frames = SubResource("SpriteFrames_0caka")

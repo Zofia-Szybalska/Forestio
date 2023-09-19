@@ -44,7 +44,8 @@ animations = [{
 
 [node name="Spruce" groups=["spruces"] instance=ExtResource("1_yg18t")]
 script = ExtResource("2_qscq1")
-currency_per_second = 1
+currency_generated = 1
+growth_time = 5
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 position = Vector2(0, -90)
