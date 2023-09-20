@@ -27,6 +27,8 @@ var building_preview: Sprite2D
 var destroy_mode_active = false
 var primal_oak_placed = false
 var primal_spruce_placed = false
+var can_build_modulate = Color(1, 1, 1, 0.3)
+var cannot_build_modulate = Color(1, 0, 0, 0.5)
 
 signal currency_changed
 signal grass_tiles_changed
@@ -152,10 +154,6 @@ func can_place_tree(pos):
 		return false
 	if not get_cell_source_id(super_pollution_layer, tile) == -1:
 		return false
-	if chosen_tree == TreesTypes.PRIMAL_OAK and primal_oak_placed:
-		return false
-	elif  chosen_tree == TreesTypes.PRIMAL_SPRUCE and primal_spruce_placed:
-		return false
 	return true
 
 func draw_highlight():
@@ -175,10 +173,14 @@ func draw_building_preview():
 		building_preview.position.y -= 100
 	elif chosen_tree == TreesTypes.FERN:
 		building_preview.position.y -= 25
-	if not can_place_tree(mouse_pos) or destroy_mode_active:
-		building_preview.visible = false
+	if not can_place_tree(mouse_pos) or (chosen_tree == TreesTypes.PRIMAL_OAK and primal_oak_placed) or (chosen_tree == TreesTypes.PRIMAL_SPRUCE and primal_spruce_placed):
+		building_preview.modulate = cannot_build_modulate
 	else:
-		building_preview.visible = true
+		building_preview.modulate = can_build_modulate
+	if destroy_mode_active:
+		building_preview.hide()
+	else:
+		building_preview.show()
 
 func place_tree(pos):
 	var tile = local_to_map(pos)
