@@ -68,6 +68,7 @@ func place_tree(pos):
 			_on_currency_changed(-oak_cost*10)
 			world_auto_tile_map.place_tree(pos)
 			primal_oak_placed = true
+			world_auto_tile_map.primal_oak_placed = true
 	elif chosen_tree == TreesTypes.OAK and primal_oak_placed:
 		if currency >= oak_cost:
 			_on_currency_changed(-oak_cost)
@@ -77,6 +78,7 @@ func place_tree(pos):
 			_on_currency_changed(-spruce_cost*10)
 			world_auto_tile_map.place_tree(pos)
 			primal_spruce_placed = true
+			world_auto_tile_map.primal_spruce_placed = true
 	elif chosen_tree == TreesTypes.SPRUCE and primal_spruce_placed:
 		if currency >= spruce_cost:
 			_on_currency_changed(-spruce_cost)

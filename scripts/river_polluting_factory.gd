@@ -4,6 +4,7 @@ var tile
 var is_destroyed = false
 var water_tiles: Array = []
 var starting_water_tiles: Array = []
+var riverbank_tiles = []
 var direction: Vector2i
 var type = "River polluting factory."
 var max_radius = "Pollutes the entire river below it."
@@ -29,7 +30,7 @@ func get_time_to_next_expansion():
 
 func _on_expand_timer_timeout():
 	if water_tiles.size() == 0:
-		water_polluted.emit(starting_water_tiles, direction, tile)
+		water_polluted.emit(starting_water_tiles, direction, tile, riverbank_tiles)
 	else:
-		water_polluted.emit(water_tiles, direction, tile)
+		water_polluted.emit(water_tiles, direction, tile, riverbank_tiles)
 

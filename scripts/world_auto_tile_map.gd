@@ -10,20 +10,23 @@ var chosen_tree = null:
 		chosen_tree = value
 		_on_chosen_tree_change()
 
-var highlight_layer: int = 7
+var highlight_layer: int = 6
 var base_layer:int = 0
-var grass_layer:int = 5
+var grass_layer:int = 4
 var pollution_layer:int = 1
-var water_layer:int = 4
-var rocks_layer:int = 6
+var water_layer:int = 5
+var rocks_layer:int = 7
 var super_pollution_layer:int = 2
 var eternal_grass_layer:int = 3
+
 var trees : Dictionary = {}
 var factories : Dictionary = {}
 enum TreesTypes {OAK, PRIMAL_OAK, SPRUCE, PRIMAL_SPRUCE, FERN}
 var first_tree = true
 var building_preview: Sprite2D
 var destroy_mode_active = false
+var primal_oak_placed = false
+var primal_spruce_placed = false
 
 signal currency_changed
 signal grass_tiles_changed
@@ -149,6 +152,10 @@ func can_place_tree(pos):
 		return false
 	if not get_cell_source_id(super_pollution_layer, tile) == -1:
 		return false
+	if chosen_tree == TreesTypes.PRIMAL_OAK and primal_oak_placed:
+		return false
+	elif  chosen_tree == TreesTypes.PRIMAL_SPRUCE and primal_spruce_placed:
+		return false
 	return true
 
 func draw_highlight():
@@ -236,8 +243,10 @@ func place_factory(pos, type):
 		for t in surrounding_tiles:
 			if not get_cell_source_id(water_layer, t) == -1:
 				var direction =  t - tile
-				factory_instanced.starting_water_tiles = get_water_tiles_line(t, direction)
+				var riverbank_tiles: Array = []
+				factory_instanced.starting_water_tiles = get_water_tiles_line(t, direction, riverbank_tiles)
 				factory_instanced.direction = direction
+				factory_instanced.riverbank_tiles = riverbank_tiles
 				break
 	
 	factories[tile] = factory_instanced
@@ -268,17 +277,20 @@ func _on_factory_expanded(affected_tiles, pollution_type):
 func _on_currency_changed(amount):
 	currency_changed.emit(amount)
 
-func _on_water_polluted(tiles:Array, direction, tile):
-	change_water_tiles(tiles, "pollution")
-	var water_direction = get_cell_tile_data(water_layer, tiles.front()).get_custom_data("water_direction")
-	for t in tiles:
-		if is_water(t + water_direction):
-			tiles = get_water_tiles_line(t + water_direction, direction)
-			break
-		elif get_cell_source_id(base_layer, t + water_direction):
-			tiles.clear()
-			break
-	factories[tile].water_tiles = tiles
+func _on_water_polluted(water_tiles:Array, direction, tile, riverbank_tiles):
+	set_cells_terrain_connect(base_layer, riverbank_tiles, 0, 0, false)
+	set_cells_terrain_connect(grass_layer, riverbank_tiles, 1, -1)
+	if water_tiles.size() > 0:
+		change_water_tiles(water_tiles, "pollution")
+		var water_direction = get_cell_tile_data(water_layer, water_tiles.front()).get_custom_data("water_direction")
+		var new_water_tiles: Array = []
+		for t in water_tiles:
+			if is_water(t + water_direction):
+				if not (t + water_direction) in new_water_tiles:
+					new_water_tiles.append_array(get_water_tiles_line(t + water_direction, direction, riverbank_tiles))
+			elif get_cell_source_id(base_layer, t + water_direction) == -1:
+				break
+		factories[tile].water_tiles = new_water_tiles
 
 func is_grass(tile):
 	if not get_cell_source_id(grass_layer, tile) == -1:
@@ -342,27 +354,33 @@ func get_surronding_tiles(tile, radius):
 			if get_cell_source_id(0, target_tile) == -1:
 				continue
 			var data = get_cell_tile_data(water_layer, target_tile)
-			if data and data.get_custom_data("water"):
+			if data and data.get_custom_data("is_not_riverbank"):
 				continue
 			surronding_tiles.append(target_tile)
 	return surronding_tiles
 
-func get_water_tiles_line(tile, direction):
+func get_water_tiles_line(tile, direction, riverbank_tiles: Array):
 	var water_tiles = [tile]
+	if not get_cell_tile_data(water_layer,tile).get_custom_data("is_not_riverbank"):
+		riverbank_tiles.append(tile)
 	var count = 1
 	while true:
 		var next_tile = tile + direction * count
-		if not get_cell_source_id(water_layer, next_tile) == -1:
+		if is_water(next_tile):
 			water_tiles.append(next_tile)
 			count += 1
+			if not (get_cell_tile_data(water_layer, next_tile).get_custom_data("is_not_riverbank") and next_tile in riverbank_tiles):
+				riverbank_tiles.append(next_tile)
 		else:
 			break
 	count = -1
 	while true:
 		var next_tile = tile + direction * count
-		if not get_cell_source_id(water_layer, next_tile) == -1:
+		if is_water(next_tile):
 			water_tiles.append(next_tile)
 			count -= 1
+			if not (get_cell_tile_data(water_layer, next_tile).get_custom_data("is_not_riverbank") and next_tile in riverbank_tiles):
+				riverbank_tiles.append(next_tile)
 		else:
 			break
 	return water_tiles

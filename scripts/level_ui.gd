@@ -96,7 +96,7 @@ func change_info(tile, nature, building, curr_range, expand, time):
 	range_info.text =  str(curr_range)
 	expand_info.text = str(expand)
 	time_info.text = str(snapped(time, 0.01) if time is float else 0)
-	$TimeLeftTimer.wait_time = time if time is float else 0
+	$TimeLeftTimer.wait_time = time if time is float else 0.001
 	$TimeLeftTimer.start()
 
 func _on_info_box_timer_timeout():
