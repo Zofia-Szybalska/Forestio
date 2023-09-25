@@ -463,7 +463,7 @@ func try_to_destroy_tree(pos):
 	if plants.has(tile):
 		var tree = plants[tile]
 		plants.erase(tile)
-		currency_changed.emit(tree.currency_cost/2)
+		currency_changed.emit(tree.plant_resource.cost/2)
 		tree.queue_free()
 
 func _on_game_lost(text):
