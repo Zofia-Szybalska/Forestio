@@ -1,0 +1,41 @@
+[gd_resource type="SpriteFrames" load_steps=5 format=3 uid="uid://ciyg17cgqmaqs"]
+
+[ext_resource type="Texture2D" uid="uid://denqbt81mni4s" path="res://assets/trees/Spruce.png" id="1_ifwg2"]
+[ext_resource type="Texture2D" uid="uid://bynkww7ffhvum" path="res://assets/trees/SpruceFyllyGrownDead.png" id="2_eub2q"]
+[ext_resource type="Texture2D" uid="uid://dst6g3dx8c2c" path="res://assets/trees/SpruceSeedling.png" id="3_w2wmv"]
+[ext_resource type="Texture2D" uid="uid://bpqufpq013xh" path="res://assets/trees/OakSeedlingDead.png" id="4_cf8vw"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_ifwg2")
+}],
+"loop": true,
+"name": &"fully_grown",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_eub2q")
+}],
+"loop": true,
+"name": &"fully_grown_dead",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_w2wmv")
+}],
+"loop": true,
+"name": &"seedling",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_cf8vw")
+}],
+"loop": true,
+"name": &"seedling_dead",
+"speed": 5.0
+}]

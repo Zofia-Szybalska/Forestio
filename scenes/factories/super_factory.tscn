@@ -1,29 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://c5hc7we2rc8sx"]
+[gd_scene load_steps=8 format=3 uid="uid://c5hc7we2rc8sx"]
 
 [ext_resource type="PackedScene" uid="uid://dqnsyce5pimlc" path="res://scenes/factory.tscn" id="1_8bwpb"]
 [ext_resource type="Script" path="res://scripts/super_factory.gd" id="2_tohm4"]
-[ext_resource type="Texture2D" uid="uid://detxb0jbyq3mh" path="res://assets/factories/SuperFactory.png" id="2_w13f2"]
-[ext_resource type="Texture2D" uid="uid://bjoo3a7ghtj4s" path="res://assets/factories/DestoyedSuperfactory.png" id="3_wj42b"]
+[ext_resource type="SpriteFrames" uid="uid://cmjmcsw3j2heu" path="res://resources/sprite_frames/super_factory_sprite_frames.tres" id="3_ygdas"]
 [ext_resource type="Texture2D" uid="uid://jbtfb8up5n6w" path="res://assets/Smoke.png" id="5_cy3ex"]
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_0caka"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("3_wj42b")
-}],
-"loop": true,
-"name": &"destroyed",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("2_w13f2")
-}],
-"loop": true,
-"name": &"working",
-"speed": 5.0
-}]
 
 [sub_resource type="Gradient" id="Gradient_oaqnc"]
 offsets = PackedFloat32Array(0.339623, 1)
@@ -43,21 +23,22 @@ radial_accel_max = 100.0
 scale_min = 0.3
 scale_max = 0.4
 color_ramp = SubResource("GradientTexture1D_x8tj2")
-hue_variation_min = 0.43
-hue_variation_max = 0.45
 turbulence_noise_strength = 13.34
 
 [node name="SuperFactory" groups=["super_factories"] instance=ExtResource("1_8bwpb")]
 script = ExtResource("2_tohm4")
+curr_expansion_radius = 1
+currency_taken_per_second = 1
 expand_time = 20
 
 [node name="AnimatedSprite2D" parent="." index="0"]
-sprite_frames = SubResource("SpriteFrames_0caka")
+sprite_frames = ExtResource("3_ygdas")
 
 [node name="ExpandTimer" parent="." index="1"]
 wait_time = 20.0
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="Smoke" index="0"]
+modulate = Color(0, 1, 0, 1)
 position = Vector2(1, -286)
 amount = 20
 process_material = SubResource("ParticleProcessMaterial_828ct")

@@ -1,0 +1,23 @@
+[gd_resource type="SpriteFrames" load_steps=3 format=3 uid="uid://damdmo7r8llvu"]
+
+[ext_resource type="Texture2D" uid="uid://3vhxvocg72x8" path="res://assets/factories/RiverPollutingFactoryDestroyed.png" id="1_3ddwa"]
+[ext_resource type="Texture2D" uid="uid://bxv4smw6cgsel" path="res://assets/factories/RiverPollutingFactory.png" id="2_ern2n"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_3ddwa")
+}],
+"loop": true,
+"name": &"destroyed",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_ern2n")
+}],
+"loop": true,
+"name": &"working",
+"speed": 5.0
+}]

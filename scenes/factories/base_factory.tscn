@@ -1,68 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://bgtdsxy78ck1i"]
+[gd_scene load_steps=3 format=3 uid="uid://bgtdsxy78ck1i"]
 
 [ext_resource type="PackedScene" uid="uid://dqnsyce5pimlc" path="res://scenes/factory.tscn" id="1_33xl1"]
-[ext_resource type="Texture2D" uid="uid://bp7p0fi2qkalq" path="res://assets/factories/Destroyedfactory.png" id="2_88jdj"]
-[ext_resource type="Texture2D" uid="uid://b0lhi52arjrdn" path="res://assets/factories/Factory.png" id="3_r8m0v"]
-[ext_resource type="Texture2D" uid="uid://jbtfb8up5n6w" path="res://assets/Smoke.png" id="4_6hpgf"]
-[ext_resource type="Material" uid="uid://banfp607vtspe" path="res://smoke_particle_proces_material.tres" id="4_flj2k"]
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_nj03h"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("2_88jdj")
-}],
-"loop": true,
-"name": &"destroyed",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("3_r8m0v")
-}],
-"loop": true,
-"name": &"working",
-"speed": 5.0
-}]
-
-[sub_resource type="Gradient" id="Gradient_oaqnc"]
-offsets = PackedFloat32Array(0.339623, 1)
-colors = PackedColorArray(0.490196, 0.490196, 0.490196, 1, 1, 1, 1, 0)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_x8tj2"]
-gradient = SubResource("Gradient_oaqnc")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_h5yis"]
-direction = Vector3(0, 0, 0)
-gravity = Vector3(0, -100, 0)
-initial_velocity_min = 10.0
-initial_velocity_max = 30.0
-radial_accel_min = 10.0
-radial_accel_max = 100.0
-scale_min = 0.15
-scale_max = 0.2
-color_ramp = SubResource("GradientTexture1D_x8tj2")
-turbulence_noise_strength = 13.34
+[ext_resource type="SpriteFrames" uid="uid://b3rkmqg5kxbcx" path="res://resources/sprite_frames/base_factory_sprite_frames.tres" id="2_w5cu1"]
 
 [node name="BaseFactory" groups=["base_factories"] instance=ExtResource("1_33xl1")]
 
 [node name="AnimatedSprite2D" parent="." index="0"]
-sprite_frames = SubResource("SpriteFrames_nj03h")
-
-[node name="GPUParticles2D" type="GPUParticles2D" parent="Smoke" index="0"]
-position = Vector2(6, -314)
-amount = 10
-process_material = ExtResource("4_flj2k")
-texture = ExtResource("4_6hpgf")
-lifetime = 1.5
-randomness = 1.0
-draw_order = 2
-
-[node name="GPUParticles2D2" type="GPUParticles2D" parent="Smoke" index="1"]
-position = Vector2(-69, -252)
-amount = 10
-process_material = SubResource("ParticleProcessMaterial_h5yis")
-texture = ExtResource("4_6hpgf")
-lifetime = 1.5
-randomness = 1.0
-draw_order = 2
+sprite_frames = ExtResource("2_w5cu1")

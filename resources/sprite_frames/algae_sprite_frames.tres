@@ -1,0 +1,42 @@
+[gd_resource type="SpriteFrames" load_steps=9 format=3 uid="uid://cb5lstdapl4i4"]
+
+[ext_resource type="Texture2D" uid="uid://ebkwtqwv84n" path="res://assets/trees/Algea0000.png" id="1_fksf3"]
+[ext_resource type="Texture2D" uid="uid://bpkicc6f2u3cr" path="res://assets/trees/Algea0001.png" id="2_2e3ak"]
+[ext_resource type="Texture2D" uid="uid://k7mtqijjbhvj" path="res://assets/trees/Algea0002.png" id="3_c5p8v"]
+[ext_resource type="Texture2D" uid="uid://bes6ibrnnus23" path="res://assets/trees/Algea0003.png" id="4_xlata"]
+[ext_resource type="Texture2D" uid="uid://crnjocr6gs8f1" path="res://assets/trees/Algea0004.png" id="5_s4jay"]
+[ext_resource type="Texture2D" uid="uid://c7eucjmrkews" path="res://assets/trees/Algea0005.png" id="6_l8pna"]
+[ext_resource type="Texture2D" uid="uid://c1lsbstq8b6v1" path="res://assets/trees/Algea0006.png" id="7_oeoqu"]
+[ext_resource type="Texture2D" uid="uid://cg35j3hn6652j" path="res://assets/trees/Algea0007.png" id="8_ftgl1"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_fksf3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_2e3ak")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_c5p8v")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_xlata")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_s4jay")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_l8pna")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_oeoqu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_ftgl1")
+}],
+"loop": true,
+"name": &"fully_grown",
+"speed": 14.0
+}]

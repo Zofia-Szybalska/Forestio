@@ -1,0 +1,39 @@
+[gd_scene load_steps=3 format=3 uid="uid://bbq1q3d6fg017"]
+
+[ext_resource type="Script" path="res://scripts/plant.gd" id="1_xxa8r"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xe1fe"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"fully_grown",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"fully_grown_dead",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"seedling",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"seedling_dead",
+"speed": 5.0
+}]
+
+[node name="Plant" type="Node2D" groups=["plants"]]
+script = ExtResource("1_xxa8r")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.75, 0.75)
+sprite_frames = SubResource("SpriteFrames_xe1fe")
+animation = &"seedling"
+
+[node name="CurrencyTimer" type="Timer" parent="."]
+autostart = true
+
+[node name="GrowthTimer" type="Timer" parent="."]

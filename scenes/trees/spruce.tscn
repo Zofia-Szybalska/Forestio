@@ -1,55 +1,15 @@
-[gd_scene load_steps=8 format=3 uid="uid://7yqam4eqx525"]
+[gd_scene load_steps=4 format=3 uid="uid://7yqam4eqx525"]
 
 [ext_resource type="PackedScene" uid="uid://cl2jfbx56yjar" path="res://scenes/trees/tree.tscn" id="1_yg18t"]
-[ext_resource type="Texture2D" uid="uid://denqbt81mni4s" path="res://assets/trees/Spruce.png" id="2_5geek"]
-[ext_resource type="Script" path="res://scripts/spruce.gd" id="2_qscq1"]
-[ext_resource type="Texture2D" uid="uid://bynkww7ffhvum" path="res://assets/trees/SpruceFyllyGrownDead.png" id="3_4u8cy"]
-[ext_resource type="Texture2D" uid="uid://dst6g3dx8c2c" path="res://assets/trees/SpruceSeedling.png" id="4_dugk4"]
-[ext_resource type="Texture2D" uid="uid://bpqufpq013xh" path="res://assets/trees/OakSeedlingDead.png" id="5_aw8r2"]
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_5ooct"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("2_5geek")
-}],
-"loop": true,
-"name": &"fully_grown",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("3_4u8cy")
-}],
-"loop": true,
-"name": &"fully_grown_dead",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("4_dugk4")
-}],
-"loop": true,
-"name": &"seedling",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("5_aw8r2")
-}],
-"loop": true,
-"name": &"seedling_dead",
-"speed": 5.0
-}]
+[ext_resource type="Resource" uid="uid://devolutaqlruw" path="res://resources/plants/spruce.tres" id="2_fsr3j"]
+[ext_resource type="SpriteFrames" uid="uid://ciyg17cgqmaqs" path="res://resources/sprite_frames/spruce_sprite_frames.tres" id="3_h4orq"]
 
 [node name="Spruce" groups=["spruces"] instance=ExtResource("1_yg18t")]
-script = ExtResource("2_qscq1")
-currency_generated = 1
-growth_time = 5
+plant_resource = ExtResource("2_fsr3j")
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 position = Vector2(0, -90)
-sprite_frames = SubResource("SpriteFrames_5ooct")
+sprite_frames = ExtResource("3_h4orq")
 animation = &"fully_grown"
 
 [node name="GrowthTimer" parent="." index="2"]

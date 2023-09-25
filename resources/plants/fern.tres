@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Plant" load_steps=3 format=3 uid="uid://d4dfovdiu7b1v"]
+
+[ext_resource type="Script" path="res://scripts/plant_resource.gd" id="1_vu1if"]
+[ext_resource type="SpriteFrames" uid="uid://bpjdl4kft00ho" path="res://resources/sprite_frames/fern_sprite_frames.tres" id="2_du6s3"]
+
+[resource]
+script = ExtResource("1_vu1if")
+name = "Fern"
+amount_of_currency_produced = 0
+currency_production_time = 1
+cost = 10
+growth_time = 2
+max_radius = 1
+sprite_frames = ExtResource("2_du6s3")
+is_prime = false
+can_be_killed = false
+starting_pos = Vector2(0, -25)

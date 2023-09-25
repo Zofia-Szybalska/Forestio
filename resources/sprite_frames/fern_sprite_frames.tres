@@ -1,0 +1,23 @@
+[gd_resource type="SpriteFrames" load_steps=3 format=3 uid="uid://bpjdl4kft00ho"]
+
+[ext_resource type="Texture2D" uid="uid://bpfrvjk36bqio" path="res://assets/trees/FernFullyGrown.png" id="1_qogrj"]
+[ext_resource type="Texture2D" uid="uid://b7mw0yp3nmnh7" path="res://assets/trees/FernSeedling.png" id="2_ls7qk"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_qogrj")
+}],
+"loop": true,
+"name": &"fully_grown",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_ls7qk")
+}],
+"loop": true,
+"name": &"seedling",
+"speed": 5.0
+}]

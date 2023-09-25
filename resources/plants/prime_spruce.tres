@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Plant" load_steps=3 format=3 uid="uid://m0ce8i0je3sx"]
+
+[ext_resource type="Script" path="res://scripts/plant_resource.gd" id="1_5ig5j"]
+[ext_resource type="SpriteFrames" uid="uid://ciyg17cgqmaqs" path="res://resources/sprite_frames/spruce_sprite_frames.tres" id="2_quu6d"]
+
+[resource]
+script = ExtResource("1_5ig5j")
+name = "Prime spruce"
+amount_of_currency_produced = 1
+currency_production_time = 1
+cost = 100
+growth_time = 5
+max_radius = 2
+sprite_frames = ExtResource("2_quu6d")
+is_prime = true
+can_be_killed = true
+starting_pos = Vector2(0, -170)

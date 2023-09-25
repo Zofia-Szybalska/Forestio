@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Factory" load_steps=4 format=3 uid="uid://dwjjrqg2vgekm"]
+
+[ext_resource type="Script" path="res://scripts/factory_resource.gd" id="1_8166f"]
+[ext_resource type="PackedScene" uid="uid://cljv83im0hqh4" path="res://scenes/smoke_gpu_particles_2d.tscn" id="2_jucik"]
+[ext_resource type="SpriteFrames" uid="uid://damdmo7r8llvu" path="res://resources/sprite_frames/river_factory_sprite_frames.tres" id="3_f05d3"]
+
+[resource]
+script = ExtResource("1_8166f")
+name = "River polluting factory"
+max_radius = 1
+expand_time = 5
+pollution_type = "water"
+sprite_frames = ExtResource("3_f05d3")
+smoke_particelse = ExtResource("2_jucik")
+smoke_particels_modulate = Color(1, 1, 1, 1)
+smoke_particels_amount = 10
+smoke_size = 1.0
+smoke_particles_positions = Array[Vector2]([Vector2(8, -296)])

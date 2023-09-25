@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Factory" load_steps=4 format=3 uid="uid://dbo5cwx05l53n"]
+
+[ext_resource type="Script" path="res://scripts/factory_resource.gd" id="1_hbcyr"]
+[ext_resource type="PackedScene" uid="uid://cljv83im0hqh4" path="res://scenes/smoke_gpu_particles_2d.tscn" id="2_ve03g"]
+[ext_resource type="SpriteFrames" uid="uid://b3rkmqg5kxbcx" path="res://resources/sprite_frames/base_factory_sprite_frames.tres" id="3_3e1yn"]
+
+[resource]
+script = ExtResource("1_hbcyr")
+name = "Base factory"
+max_radius = 3
+expand_time = 10
+pollution_type = "normal"
+sprite_frames = ExtResource("3_3e1yn")
+smoke_particelse = ExtResource("2_ve03g")
+smoke_particels_modulate = Color(1, 1, 1, 1)
+smoke_particels_amount = 10
+smoke_size = 1.0
+smoke_particles_positions = Array[Vector2]([Vector2(6, -314), Vector2(-69, -252)])

@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Factory" load_steps=4 format=3 uid="uid://bficlxdae3bub"]
+
+[ext_resource type="Script" path="res://scripts/factory_resource.gd" id="1_omq6i"]
+[ext_resource type="PackedScene" uid="uid://cljv83im0hqh4" path="res://scenes/smoke_gpu_particles_2d.tscn" id="2_eqph7"]
+[ext_resource type="SpriteFrames" uid="uid://cmjmcsw3j2heu" path="res://resources/sprite_frames/super_factory_sprite_frames.tres" id="3_sabgr"]
+
+[resource]
+script = ExtResource("1_omq6i")
+name = "Super factory"
+max_radius = 3
+expand_time = 20
+pollution_type = "super"
+sprite_frames = ExtResource("3_sabgr")
+smoke_particelse = ExtResource("2_eqph7")
+smoke_particels_modulate = Color(0, 1, 0, 1)
+smoke_particels_amount = 10
+smoke_size = 1.5
+smoke_particles_positions = Array[Vector2]([Vector2(1, -286)])

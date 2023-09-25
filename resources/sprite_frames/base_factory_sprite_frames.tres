@@ -1,0 +1,23 @@
+[gd_resource type="SpriteFrames" load_steps=3 format=3 uid="uid://b3rkmqg5kxbcx"]
+
+[ext_resource type="Texture2D" uid="uid://bp7p0fi2qkalq" path="res://assets/factories/Destroyedfactory.png" id="1_pc184"]
+[ext_resource type="Texture2D" uid="uid://b0lhi52arjrdn" path="res://assets/factories/Factory.png" id="2_lxa2m"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_pc184")
+}],
+"loop": true,
+"name": &"destroyed",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_lxa2m")
+}],
+"loop": true,
+"name": &"working",
+"speed": 5.0
+}]

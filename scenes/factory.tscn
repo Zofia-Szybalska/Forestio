@@ -15,7 +15,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Factory" type="Node2D"]
+[node name="Factory" type="Node2D" groups=["factories"]]
 script = ExtResource("1_0f42m")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -25,9 +25,5 @@ animation = &"working"
 metadata/_edit_lock_ = true
 
 [node name="ExpandTimer" type="Timer" parent="."]
-wait_time = 10.0
-autostart = true
 
 [node name="Smoke" type="Node2D" parent="."]
-
-[connection signal="timeout" from="ExpandTimer" to="." method="_on_expand_timer_timeout"]

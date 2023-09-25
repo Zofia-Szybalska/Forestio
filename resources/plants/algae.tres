@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Plant" load_steps=3 format=3 uid="uid://b23xf7u57nsnc"]
+
+[ext_resource type="Script" path="res://scripts/plant_resource.gd" id="1_gdp5k"]
+[ext_resource type="SpriteFrames" uid="uid://cb5lstdapl4i4" path="res://resources/sprite_frames/algae_sprite_frames.tres" id="2_gfm0r"]
+
+[resource]
+script = ExtResource("1_gdp5k")
+name = "Algae"
+amount_of_currency_produced = 0
+currency_production_time = 1
+cost = 10
+growth_time = 5
+max_radius = 1
+sprite_frames = ExtResource("2_gfm0r")
+is_prime = false
+can_be_killed = false
+starting_pos = Vector2(10, -10)

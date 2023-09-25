@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Plant" load_steps=3 format=3 uid="uid://bof1o3msw6pjv"]
+
+[ext_resource type="Script" path="res://scripts/plant_resource.gd" id="1_botgd"]
+[ext_resource type="SpriteFrames" uid="uid://r0k1uf28xmi8" path="res://resources/sprite_frames/oak_sprite_frames.tres" id="2_umgvv"]
+
+[resource]
+script = ExtResource("1_botgd")
+name = "Prime oak"
+amount_of_currency_produced = 2
+currency_production_time = 1
+cost = 100
+growth_time = 10
+max_radius = 3
+sprite_frames = ExtResource("2_umgvv")
+is_prime = true
+can_be_killed = true
+starting_pos = Vector2(0, -170)
