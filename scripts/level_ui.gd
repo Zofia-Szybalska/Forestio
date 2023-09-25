@@ -6,8 +6,10 @@ var cross = load("res://assets/CrossCursor.png")
 var curr_info_tile
 var prev_nature_points_value = 100
 var curr_nature_points_value = 100
+var info_box_is_beeing_hidden = false
 @onready var nature_points_amount_lable = $NaturePoints/MarginContainer/VBoxContainer/NaturePoints/NaturePointsAmount
 @onready var nature_points_per_second_lable = $NaturePoints/MarginContainer/VBoxContainer/NaturePointsPerSecond
+
 @onready var tile_info = $InfoBox/MarginContainer/VBoxContainer/TileInfo/TileInfo
 @onready var nature_info = $InfoBox/MarginContainer/VBoxContainer/NatureInfo/NatureInfo
 @onready var building_info = $InfoBox/MarginContainer/VBoxContainer/BuildingInfo/BuildingInfo
@@ -22,14 +24,6 @@ signal chosen_tree_changed
 signal destroy_mode_changed
 signal info_needed
 
-func _ready():
-	pass
-#	tile_info.custom_minimum_size.x = info_box.size.x - $InfoBox/MarginContainer/VBoxContainer/TileInfo/Lable.size.x
-#	nature_info.custom_minimum_size.x = info_box.size.x - $InfoBox/MarginContainer/VBoxContainer/NatureInfo/Label.size.x
-#	building_info.custom_minimum_size.x = info_box.size.x - $InfoBox/MarginContainer/VBoxContainer/BuildingInfo/Label.size.x
-#	range_info.custom_minimum_size.x = info_box.size.x - $InfoBox/MarginContainer/VBoxContainer/RangeInfo/Label.size.x
-#	expand_info.custom_minimum_size.x = info_box.size.x - $InfoBox/MarginContainer/VBoxContainer/ExpandInfo/Label.size.x
-#	time_info.custom_minimum_size.x = info_box.size.x - $InfoBox/MarginContainer/VBoxContainer/TimeInfo/Lable.size.x
 
 func _process(_delta):
 	if info_box.visible:
@@ -58,18 +52,22 @@ func change_currency_amount(value):
 func _on_primal_oak_button_pressed():
 	chosen_tree_changed.emit(PlantTypes.PRIMAL_OAK)
 	deactivate_destroy()
+	hide_info()
 
 func _on_oak_button_pressed():
 	chosen_tree_changed.emit(PlantTypes.OAK)
 	deactivate_destroy()
+	hide_info()
 
 func _on_spruce_button_pressed():
 	chosen_tree_changed.emit(PlantTypes.SPRUCE)
 	deactivate_destroy()
+	hide_info()
 
 func _on_primal_spruce_button_pressed():
 	chosen_tree_changed.emit(PlantTypes.PRIMAL_SPRUCE)
 	deactivate_destroy()
+	hide_info()
 
 func deactivate_destroy():
 	destroy_mode_changed.emit(false)
@@ -78,10 +76,12 @@ func deactivate_destroy():
 func _on_destroy_button_pressed():
 	Input.set_custom_mouse_cursor(cross, Input.CURSOR_ARROW, Vector2(16,16))
 	destroy_mode_changed.emit(true)
+	hide_info()
 
 func _on_fern_button_pressed():
 	chosen_tree_changed.emit(PlantTypes.FERN)
 	deactivate_destroy()
+	hide_info()
 
 func show_info(info_array:Array):
 	change_info(info_array[0], info_array[1], info_array[2], info_array[3], info_array[4], info_array[5])
@@ -91,12 +91,15 @@ func show_info(info_array:Array):
 	curr_info_tile = info_array[6]
 
 func hide_info():
-	var tween = get_tree().create_tween()
-	tween.tween_property(info_box, "modulate", Color(1,1,1,0), 0.5)
-	tween.connect("finished", on_tween_finished)
+	if not info_box_is_beeing_hidden and info_box.visible:
+		info_box_is_beeing_hidden = true
+		var tween = get_tree().create_tween()
+		tween.tween_property(info_box, "modulate", Color(1,1,1,0), 0.5)
+		tween.connect("finished", on_tween_finished)
 
 func on_tween_finished():
 	info_box.hide()
+	info_box_is_beeing_hidden = false
 
 func change_info(tile, nature, building, curr_range, expand, time):
 	tile_info.text = str(tile)
@@ -106,7 +109,10 @@ func change_info(tile, nature, building, curr_range, expand, time):
 	expand_info.text = str(expand)
 	time_info.text = str(snapped(time, 0.01) if time is float else 0)
 	$TimeLeftTimer.wait_time = time if time is float else 0.001
-	$TimeLeftTimer.start()
+	if $TimeLeftTimer.wait_time == 0.001:
+		$TimeLeftTimer.stop()
+	else:
+		$TimeLeftTimer.start()
 
 func _on_time_left_timer_timeout():
 	info_needed.emit(curr_info_tile)
@@ -120,3 +126,4 @@ func _on_nature_points_timer_timeout():
 func _on_algae_button_pressed():
 	chosen_tree_changed.emit(PlantTypes.ALGAE)
 	deactivate_destroy()
+	hide_info()
