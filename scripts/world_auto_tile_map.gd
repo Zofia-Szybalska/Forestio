@@ -461,10 +461,12 @@ func remove_tiles(layer, tiles):
 func try_to_destroy_tree(pos):
 	var tile = local_to_map(pos)
 	if plants.has(tile):
-		var tree = plants[tile]
+		if plants[tile].plant_resource.is_prime:
+			game_lost.emit("Your %s was destroyed, you lost!" % plants[tile].plant_resource.name)
+		var plant = plants[tile]
 		plants.erase(tile)
-		currency_changed.emit(tree.plant_resource.cost/2)
-		tree.queue_free()
+		currency_changed.emit(plant.plant_resource.cost/2)
+		plant.queue_free()
 
 func _on_game_lost(text):
 	game_lost.emit(text)

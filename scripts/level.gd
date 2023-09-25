@@ -52,7 +52,7 @@ func _unhandled_input(event):
 			place_tree(mouse_pos)
 		if chosen_tree == TreesTypes.ALGAE and world_auto_tile_map.is_water(mouse_pos):
 			place_tree(mouse_pos)
-	elif event.is_action_pressed("left_click") and not tree_chosen:
+	elif event.is_action_pressed("left_click") and not tree_chosen and not destroy_mode_active:
 		var info_array = world_auto_tile_map.get_tile_info(mouse_pos)
 		level_ui.show_info(info_array)
 	elif event.is_action_pressed("left_click") and destroy_mode_active:

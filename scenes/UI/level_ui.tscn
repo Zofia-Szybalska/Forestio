@@ -20,13 +20,13 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -221.5
+offset_left = -249.0
 offset_top = -74.0
-offset_right = 221.5
+offset_right = 249.0
 offset_bottom = -20.0
 grow_horizontal = 2
 grow_vertical = 0
-size_flags_horizontal = 4
+size_flags_horizontal = 8
 size_flags_vertical = 8
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Buttons"]
@@ -96,21 +96,21 @@ layout_mode = 2
 text = "Destroy"
 
 [node name="InfoBox" type="PanelContainer" parent="."]
-visible = false
 modulate = Color(1, 1, 1, 0)
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -330.0
-offset_top = -216.0
-offset_right = -20.0
-offset_bottom = -20.0
+anchors_preset = -1
+anchor_left = 0.714
+anchor_top = 0.667
+anchor_right = 0.983
+anchor_bottom = 0.969
+offset_left = -0.528076
+offset_top = -0.216034
+offset_right = -0.416016
+offset_bottom = 0.0879517
 grow_horizontal = 0
 grow_vertical = 0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="InfoBox"]
 layout_mode = 2
@@ -256,6 +256,184 @@ autostart = true
 wait_time = 0.001
 one_shot = true
 
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+visible = false
+anchors_preset = -1
+anchor_left = 0.269
+anchor_top = 0.63
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.111969
+offset_top = -0.240021
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+alignment = 2
+
+[node name="Buttons2" type="PanelContainer" parent="HBoxContainer"]
+self_modulate = Color(1, 1, 1, 0)
+top_level = true
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/Buttons2"]
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="PrimalOakButton" type="Button" parent="HBoxContainer/Buttons2/HBoxContainer"]
+layout_mode = 2
+tooltip_text = "Cost 100"
+focus_neighbor_right = NodePath("../OakButton")
+focus_next = NodePath("../OakButton")
+mouse_force_pass_scroll_events = false
+text = "Primal Oak"
+icon = ExtResource("3_cc277")
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="OakButton" type="Button" parent="HBoxContainer/Buttons2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+tooltip_text = "Cost 10"
+focus_neighbor_left = NodePath(".")
+focus_previous = NodePath(".")
+text = "Oak"
+icon = ExtResource("3_cc277")
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="PrimalSpruceButton" type="Button" parent="HBoxContainer/Buttons2/HBoxContainer"]
+layout_mode = 2
+tooltip_text = "Cost 100"
+text = "Primal Spruce"
+icon = ExtResource("4_qo8nr")
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="SpruceButton" type="Button" parent="HBoxContainer/Buttons2/HBoxContainer"]
+layout_mode = 2
+tooltip_text = "10"
+text = "Spruce"
+icon = ExtResource("4_qo8nr")
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="FernButton" type="Button" parent="HBoxContainer/Buttons2/HBoxContainer"]
+layout_mode = 2
+text = "Fern"
+icon = ExtResource("5_w2pnu")
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="AlgaeButton" type="Button" parent="HBoxContainer/Buttons2/HBoxContainer"]
+layout_mode = 2
+text = "Algae"
+icon = ExtResource("5_o7pbh")
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="DestroyButton" type="Button" parent="HBoxContainer/Buttons2/HBoxContainer"]
+layout_mode = 2
+text = "Destroy"
+
+[node name="InfoBox2" type="PanelContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+mouse_filter = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/InfoBox2"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/InfoBox2/MarginContainer"]
+layout_mode = 2
+
+[node name="TileInfo" type="VFlowContainer" parent="HBoxContainer/InfoBox2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Lable" type="Label" parent="HBoxContainer/InfoBox2/MarginContainer/VBoxContainer/TileInfo"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Tile: "
+
+[node name="TileInfo" type="Label" parent="HBoxContainer/InfoBox2/MarginContainer/VBoxContainer/TileInfo"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="NatureInfo" type="HFlowContainer" parent="HBoxContainer/InfoBox2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/InfoBox2/MarginContainer/VBoxContainer/NatureInfo"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "Nature generation: "
+
+[node name="NatureInfo" type="Label" parent="HBoxContainer/InfoBox2/MarginContainer/VBoxContainer/NatureInfo"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+
+[node name="BuildingInfo" type="HFlowContainer" parent="HBoxContainer/InfoBox2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/InfoBox2/MarginContainer/VBoxContainer/BuildingInfo"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Building: "
+
+[node name="BuildingInfo" type="Label" parent="HBoxContainer/InfoBox2/MarginContainer/VBoxContainer/BuildingInfo"]
+layout_mode = 2
+
+[node name="RangeInfo" type="HFlowContainer" parent="HBoxContainer/InfoBox2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/InfoBox2/MarginContainer/VBoxContainer/RangeInfo"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Range: "
+
+[node name="RangeInfo" type="Label" parent="HBoxContainer/InfoBox2/MarginContainer/VBoxContainer/RangeInfo"]
+layout_mode = 2
+
+[node name="ExpandInfo" type="HFlowContainer" parent="HBoxContainer/InfoBox2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/InfoBox2/MarginContainer/VBoxContainer/ExpandInfo"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Expand level:"
+
+[node name="ExpandInfo" type="Label" parent="HBoxContainer/InfoBox2/MarginContainer/VBoxContainer/ExpandInfo"]
+layout_mode = 2
+
+[node name="TimeInfo" type="HFlowContainer" parent="HBoxContainer/InfoBox2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Lable" type="Label" parent="HBoxContainer/InfoBox2/MarginContainer/VBoxContainer/TimeInfo"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Time left to another expansion: "
+
+[node name="TimeInfo" type="Label" parent="HBoxContainer/InfoBox2/MarginContainer/VBoxContainer/TimeInfo"]
+layout_mode = 2
+
 [connection signal="pressed" from="Buttons/HBoxContainer/PrimalOakButton" to="." method="_on_primal_oak_button_pressed"]
 [connection signal="pressed" from="Buttons/HBoxContainer/OakButton" to="." method="_on_oak_button_pressed"]
 [connection signal="pressed" from="Buttons/HBoxContainer/PrimalSpruceButton" to="." method="_on_primal_spruce_button_pressed"]
@@ -265,3 +443,10 @@ one_shot = true
 [connection signal="pressed" from="Buttons/HBoxContainer/DestroyButton" to="." method="_on_destroy_button_pressed"]
 [connection signal="timeout" from="NaturePointsTimer" to="." method="_on_nature_points_timer_timeout"]
 [connection signal="timeout" from="TimeLeftTimer" to="." method="_on_time_left_timer_timeout"]
+[connection signal="pressed" from="HBoxContainer/Buttons2/HBoxContainer/PrimalOakButton" to="." method="_on_primal_oak_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/Buttons2/HBoxContainer/OakButton" to="." method="_on_oak_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/Buttons2/HBoxContainer/PrimalSpruceButton" to="." method="_on_primal_spruce_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/Buttons2/HBoxContainer/SpruceButton" to="." method="_on_spruce_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/Buttons2/HBoxContainer/FernButton" to="." method="_on_fern_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/Buttons2/HBoxContainer/AlgaeButton" to="." method="_on_algae_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/Buttons2/HBoxContainer/DestroyButton" to="." method="_on_destroy_button_pressed"]

@@ -47,6 +47,7 @@ func _process(_delta):
 		$Buttons/HBoxContainer/AlgaeButton.release_focus()
 		if info_box.visible:
 			hide_info()
+
 func change_progress_bar_value(value):
 	$ProgressBar.value = value
 
@@ -88,10 +89,6 @@ func show_info(info_array:Array):
 	var tween = get_tree().create_tween()
 	tween.tween_property(info_box, "modulate", Color(1,1,1,1), 0.5)
 	curr_info_tile = info_array[6]
-#	if info_array.size() > 6:
-#		curr_info_time = info_array[6]
-#	else:
-#		curr_info_time = null
 
 func hide_info():
 	var tween = get_tree().create_tween()
@@ -113,11 +110,6 @@ func change_info(tile, nature, building, curr_range, expand, time):
 
 func _on_time_left_timer_timeout():
 	info_needed.emit(curr_info_tile)
-#	if not curr_info_time == null and info_box.visible:
-#		$TimeLeftTimer.wait_time = curr_info_time
-#		$TimeLeftTimer.start()
-#	else:
-#		$TimeLeftTimer.stop()
 
 func _on_nature_points_timer_timeout():
 	var value = curr_nature_points_value - prev_nature_points_value

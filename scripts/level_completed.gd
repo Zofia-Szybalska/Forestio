@@ -8,5 +8,6 @@ func _on_restart_button_pressed():
 	get_tree().paused = false
 
 func display(text):
+	Input.set_custom_mouse_cursor(null)
 	show()
 	$CenterContainer/VBoxContainer/Label.text = text
