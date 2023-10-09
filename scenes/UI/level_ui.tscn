@@ -39,7 +39,8 @@ tooltip_text = "Cost 100"
 focus_neighbor_right = NodePath("../OakButton")
 focus_next = NodePath("../OakButton")
 mouse_force_pass_scroll_events = false
-text = "Primal Oak"
+text = "Primal Oak
+100"
 icon = ExtResource("3_cc277")
 icon_alignment = 1
 vertical_icon_alignment = 0
@@ -51,7 +52,8 @@ size_flags_horizontal = 6
 tooltip_text = "Cost 10"
 focus_neighbor_left = NodePath(".")
 focus_previous = NodePath(".")
-text = "Oak"
+text = "Oak
+10"
 icon = ExtResource("3_cc277")
 icon_alignment = 1
 vertical_icon_alignment = 0
@@ -60,7 +62,8 @@ expand_icon = true
 [node name="PrimalSpruceButton" type="Button" parent="Buttons/HBoxContainer"]
 layout_mode = 2
 tooltip_text = "Cost 100"
-text = "Primal Spruce"
+text = "Primal Spruce
+100"
 icon = ExtResource("4_qo8nr")
 icon_alignment = 1
 vertical_icon_alignment = 0
@@ -69,7 +72,8 @@ expand_icon = true
 [node name="SpruceButton" type="Button" parent="Buttons/HBoxContainer"]
 layout_mode = 2
 tooltip_text = "10"
-text = "Spruce"
+text = "Spruce
+10"
 icon = ExtResource("4_qo8nr")
 icon_alignment = 1
 vertical_icon_alignment = 0
@@ -77,7 +81,8 @@ expand_icon = true
 
 [node name="FernButton" type="Button" parent="Buttons/HBoxContainer"]
 layout_mode = 2
-text = "Fern"
+text = "Fern
+10"
 icon = ExtResource("5_w2pnu")
 icon_alignment = 1
 vertical_icon_alignment = 0
@@ -85,7 +90,8 @@ expand_icon = true
 
 [node name="AlgaeButton" type="Button" parent="Buttons/HBoxContainer"]
 layout_mode = 2
-text = "Algae"
+text = "Algae
+10"
 icon = ExtResource("5_o7pbh")
 icon_alignment = 1
 vertical_icon_alignment = 0
@@ -93,18 +99,20 @@ expand_icon = true
 
 [node name="DestroyButton" type="Button" parent="Buttons/HBoxContainer"]
 layout_mode = 2
+tooltip_text = "Return half of the resources"
 text = "Destroy"
 
 [node name="InfoBox" type="PanelContainer" parent="."]
+visible = false
 anchors_preset = -1
 anchor_left = 0.704
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 27.9919
-offset_top = -280.0
+offset_left = -0.00799561
+offset_top = -300.0
 offset_right = -21.0
-offset_bottom = -84.0
+offset_bottom = -104.0
 grow_horizontal = 0
 grow_vertical = 0
 size_flags_vertical = 8

@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://dqnsyce5pimlc"]
+[gd_scene load_steps=9 format=3 uid="uid://dqnsyce5pimlc"]
 
 [ext_resource type="Script" path="res://scripts/factory.gd" id="1_0f42m"]
+[ext_resource type="Texture2D" uid="uid://jbtfb8up5n6w" path="res://assets/Smoke.png" id="2_pyu3y"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_xdwe4"]
 animations = [{
@@ -15,6 +16,45 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="Gradient" id="Gradient_6tml2"]
+offsets = PackedFloat32Array(0.802469, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_faym8"]
+gradient = SubResource("Gradient_6tml2")
+
+[sub_resource type="Curve" id="Curve_l1fuj"]
+_data = [Vector2(0, 0), 0.0, 3.2689, 0, 0, Vector2(1, 0.694737), -1.59158, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_17qw6"]
+curve = SubResource("Curve_l1fuj")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_c8sbt"]
+lifetime_randomness = 0.5
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+spread = 60.0
+gravity = Vector3(0, 250, 0)
+initial_velocity_min = 100.0
+initial_velocity_max = 150.0
+angular_velocity_min = 100.0
+angular_velocity_max = 150.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+linear_accel_min = 50.0
+linear_accel_max = 100.0
+radial_accel_min = 50.0
+radial_accel_max = 100.0
+tangential_accel_min = -100.0
+tangential_accel_max = 100.0
+damping_min = 50.0
+damping_max = 75.0
+scale_min = 0.2
+scale_max = 0.25
+scale_curve = SubResource("CurveTexture_17qw6")
+color_ramp = SubResource("GradientTexture1D_faym8")
+
 [node name="Factory" type="Node2D" groups=["factories"]]
 script = ExtResource("1_0f42m")
 
@@ -27,3 +67,14 @@ metadata/_edit_lock_ = true
 [node name="ExpandTimer" type="Timer" parent="."]
 
 [node name="Smoke" type="Node2D" parent="."]
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+modulate = Color(0.45098, 0.45098, 0.45098, 1)
+position = Vector2(0, -222)
+emitting = false
+amount = 10
+process_material = SubResource("ParticleProcessMaterial_c8sbt")
+texture = ExtResource("2_pyu3y")
+one_shot = true
+explosiveness = 1.0
+randomness = 0.25

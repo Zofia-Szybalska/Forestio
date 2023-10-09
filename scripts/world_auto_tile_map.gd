@@ -278,13 +278,21 @@ func place_factory(pos, type):
 	else:
 		factory_instanced.expanded.connect(_on_factory_expanded)
 
-func _on_plant_has_grown(affected_tiles, plant_name):
+func get_tiles_positions(tiles: Array):
+	var positions_array: Array = []
+	for tile in tiles:
+		positions_array.append(map_to_local(tile))
+	return positions_array
+
+func _on_plant_has_grown(affected_tiles, plant_name, tile):
 	if plant_name == "Fern":
 		_on_fern_has_grown(affected_tiles)
+		plants[tile].all_affected_tiles_pos = get_tiles_positions(affected_tiles)
 	elif plant_name == "Algae":
 		change_water_tiles(affected_tiles, "clear")
+		plants[tile].all_affected_tiles_pos = get_tiles_positions(affected_tiles)
 	else:
-		change_surronding_tiles_tree(affected_tiles)
+		change_surronding_tiles_tree(affected_tiles, tile)
 
 func _on_fern_has_grown(affected_tiles):
 	var tiles_to_change: Array = []
@@ -366,7 +374,7 @@ func is_water(tile):
 		return true
 	return false
 
-func change_surronding_tiles_tree(tiles: Array):
+func change_surronding_tiles_tree(tiles: Array, plant_tile):
 	var local_tiles = tiles.duplicate()
 	for tile in tiles:
 		if not get_cell_source_id(super_pollution_layer, tile) == -1:
@@ -374,16 +382,18 @@ func change_surronding_tiles_tree(tiles: Array):
 		if factories.has(tile) and not factories[tile].is_destroyed:
 			if factories[tile].is_in_group("base_factories") or factories[tile].is_in_group("river_factories"):
 				factories[tile].destroy()
-			if factories[tile].is_in_group("super_factories") and factories[tile].surronding_tiles_radius1.any(is_grass):
+			if factories[tile].is_in_group("super_factories") and factories[tile].surronding_tiles_arrays[0].any(is_grass):
 				factories[tile].destroy()
 				local_tiles.append(tile)
+	plants[plant_tile].all_affected_tiles_pos = get_tiles_positions(local_tiles)
 	set_cells_terrain_connect(grass_layer, local_tiles, 1, 0, false)
 	set_cells_terrain_connect(base_layer, local_tiles, 0, 2, false)
 
 func change_water_tiles(tiles, type):
 	if type == "pollution":
 		for tile in tiles:
-			set_cell(water_layer, tile, 9, get_cell_atlas_coords(water_layer, tile))
+			if not plants.has(tile):
+				set_cell(water_layer, tile, 9, get_cell_atlas_coords(water_layer, tile))
 	else:
 		for tile in tiles:
 			set_cell(water_layer, tile, 8, get_cell_atlas_coords(water_layer, tile))
@@ -393,6 +403,7 @@ func change_surronding_tiles_polution(affected_tiles: Array, pollution_type):
 	for tile in affected_tiles:
 		if not get_cell_source_id(eternal_grass_layer, tile) == -1:
 			local_tiles.erase(tile)
+			continue
 		if plants.has(tile):
 			if plants[tile].is_in_group("oaks"):
 				plants[tile].remove_from_group("oaks")

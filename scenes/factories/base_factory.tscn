@@ -1,9 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://bgtdsxy78ck1i"]
-
-[ext_resource type="PackedScene" uid="uid://dqnsyce5pimlc" path="res://scenes/factory.tscn" id="1_33xl1"]
-[ext_resource type="SpriteFrames" uid="uid://b3rkmqg5kxbcx" path="res://resources/sprite_frames/base_factory_sprite_frames.tres" id="2_w5cu1"]
-
-[node name="BaseFactory" groups=["base_factories"] instance=ExtResource("1_33xl1")]
-
-[node name="AnimatedSprite2D" parent="." index="0"]
-sprite_frames = ExtResource("2_w5cu1")

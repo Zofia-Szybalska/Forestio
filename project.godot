@@ -16,6 +16,10 @@ config/features=PackedStringArray("4.1", "Mobile")
 config/icon="res://icon.svg"
 config/windows_native_icon="res://assets/Icon.ico"
 
+[editor]
+
+run/main_run_args="--rendering-driver opengl3"
+
 [input]
 
 zoom_in={
