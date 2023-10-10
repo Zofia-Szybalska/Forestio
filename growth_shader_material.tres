@@ -1,0 +1,65 @@
+[gd_resource type="ShaderMaterial" load_steps=8 format=3 uid="uid://s2sdtkpaugvm"]
+
+[ext_resource type="Shader" path="res://growth_shader.gdshader" id="1_o8y6d"]
+
+[sub_resource type="Gradient" id="Gradient_j0a47"]
+offsets = PackedFloat32Array(0, 0.106383, 0.914894, 1)
+colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_facr2"]
+gradient = SubResource("Gradient_j0a47")
+
+[sub_resource type="Curve" id="Curve_5elt8"]
+_data = [Vector2(0, 0), 0.0, 2.76923, 0, 0, Vector2(0.477778, 0.768421), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_i3vdv"]
+curve = SubResource("Curve_5elt8")
+
+[sub_resource type="Curve" id="Curve_gia5c"]
+_data = [Vector2(0, 0), 0.0, 3.53684, 0, 0, Vector2(1, 0.547368), -1.17895, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_xdxdx"]
+curve = SubResource("Curve_gia5c")
+
+[resource]
+resource_local_to_scene = true
+shader = ExtResource("1_o8y6d")
+shader_parameter/direction = Vector3(0, -1, 0)
+shader_parameter/spread = 20.0
+shader_parameter/flatness = 0.0
+shader_parameter/initial_linear_velocity_min = 1.0
+shader_parameter/initial_angle_min = 0.0
+shader_parameter/angular_velocity_min = 100.0
+shader_parameter/orbit_velocity_min = 0.0
+shader_parameter/linear_accel_min = 10.0
+shader_parameter/radial_accel_min = 0.0
+shader_parameter/tangent_accel_min = 0.0
+shader_parameter/damping_min = 50.0
+shader_parameter/scale_min = 0.05
+shader_parameter/hue_variation_min = 0.0
+shader_parameter/anim_speed_min = 0.0
+shader_parameter/anim_offset_min = 0.0
+shader_parameter/initial_linear_velocity_max = 5.0
+shader_parameter/initial_angle_max = 0.0
+shader_parameter/angular_velocity_max = 200.0
+shader_parameter/orbit_velocity_max = 0.0
+shader_parameter/linear_accel_max = 50.0
+shader_parameter/radial_accel_max = 0.0
+shader_parameter/tangent_accel_max = 0.0
+shader_parameter/damping_max = 75.0
+shader_parameter/scale_max = 0.15
+shader_parameter/hue_variation_max = 0.0
+shader_parameter/anim_speed_max = 0.0
+shader_parameter/anim_offset_max = 0.0
+shader_parameter/lifetime_randomness = 0.0
+shader_parameter/color_value = Color(1, 1, 1, 1)
+shader_parameter/gravity = Vector3(0, 0, 0)
+shader_parameter/YScale = 100.0
+shader_parameter/tile_count = 8
+shader_parameter/position = Vector2(0, 0)
+shader_parameter/destinations = PackedVector2Array(256, 0, -256, 0, 128, 73, -128, -73, 128, -73, -128, 73, 0, 146, 0, -146)
+shader_parameter/color_ramp = SubResource("GradientTexture2D_facr2")
+shader_parameter/scale_texture = SubResource("CurveTexture_xdxdx")
+shader_parameter/curve = SubResource("CurveTexture_i3vdv")

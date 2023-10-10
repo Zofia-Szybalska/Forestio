@@ -1,0 +1,116 @@
+[gd_scene load_steps=4 format=3 uid="uid://ccarbpe2bgp3t"]
+
+[ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_cf8ma"]
+
+[sub_resource type="InputEventKey" id="InputEventKey_j8pgc"]
+device = -1
+pressed = true
+keycode = 4194309
+
+[sub_resource type="Shortcut" id="Shortcut_fqvge"]
+events = [SubResource("InputEventKey_j8pgc")]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_cf8ma")
+
+[node name="Buttons" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.95
+anchor_right = 0.5
+anchor_bottom = 0.95
+offset_left = -314.5
+offset_top = -330.0
+offset_right = 314.5
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Buttons"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 10
+
+[node name="PlayButton" type="Button" parent="Buttons/VBoxContainer"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../QuitButton")
+focus_neighbor_bottom = NodePath("../LoadButton")
+focus_next = NodePath("../LoadButton")
+focus_previous = NodePath("../QuitButton")
+theme_override_font_sizes/font_size = 30
+shortcut = SubResource("Shortcut_fqvge")
+text = "Play"
+
+[node name="LoadButton" type="Button" parent="Buttons/VBoxContainer"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../PlayButton")
+focus_neighbor_bottom = NodePath("../OptionsButton")
+focus_next = NodePath("../OptionsButton")
+focus_previous = NodePath("../PlayButton")
+theme_override_font_sizes/font_size = 30
+text = "Load"
+
+[node name="OptionsButton" type="Button" parent="Buttons/VBoxContainer"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../LoadButton")
+focus_neighbor_bottom = NodePath("../CreditsButton")
+focus_next = NodePath("../CreditsButton")
+focus_previous = NodePath("../LoadButton")
+theme_override_font_sizes/font_size = 30
+text = "Options"
+
+[node name="CreditsButton" type="Button" parent="Buttons/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+focus_neighbor_top = NodePath("../OptionsButton")
+focus_neighbor_bottom = NodePath("../QuitButton")
+focus_next = NodePath("../QuitButton")
+focus_previous = NodePath("../OptionsButton")
+theme_override_font_sizes/font_size = 30
+text = "Credits"
+
+[node name="QuitButton" type="Button" parent="Buttons/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+focus_neighbor_top = NodePath("../CreditsButton")
+focus_neighbor_bottom = NodePath("../PlayButton")
+focus_next = NodePath("../PlayButton")
+focus_previous = NodePath("../CreditsButton")
+theme_override_font_sizes/font_size = 30
+text = "Quit"
+
+[node name="Title" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.1
+anchor_right = 0.5
+anchor_bottom = 0.1
+offset_left = -314.0
+offset_top = 0.199997
+offset_right = 315.0
+offset_bottom = 208.2
+grow_horizontal = 2
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="Title"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 150
+text = "Forestio"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="Buttons/VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="Buttons/VBoxContainer/LoadButton" to="." method="_on_load_button_pressed"]
+[connection signal="pressed" from="Buttons/VBoxContainer/OptionsButton" to="." method="_on_options_button_pressed"]
+[connection signal="pressed" from="Buttons/VBoxContainer/CreditsButton" to="." method="_on_credits_button_pressed"]
+[connection signal="pressed" from="Buttons/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]

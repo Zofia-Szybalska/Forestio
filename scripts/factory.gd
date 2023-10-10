@@ -6,10 +6,19 @@ signal fully_expanded
 
 @export var factory_resource: Factory
 
-var tile
+var tile:
+	set(value):
+		tile = value
+		$GPUParticles2D.process_material.set_shader_parameter("position", position)
 var is_destroyed = false
 var curr_expansion_radius:int = 0
 var surronding_tiles_arrays: Array[Array]
+var all_affected_tiles_pos: Array:
+	set(value):
+		all_affected_tiles_pos = value
+		print(value)
+		$GPUParticles2D.process_material.set_shader_parameter("destinations", value)
+		$GPUParticles2D.process_material.set_shader_parameter("tile_count", value.size())
 var all_affected_tiles: Array
 var additional_tiles: Array
 var water_polluting_direction: Vector2i
@@ -46,7 +55,6 @@ func get_time_to_next_expansion():
 	return expand_timer.get_time_left()
 
 func _on_expand_timer_timeout():
-	gpu_particles_2d.emitting = true
 	if curr_expansion_radius < factory_resource.max_radius:
 		if factory_resource.pollution_type == "water":
 			expanded.emit(surronding_tiles_arrays[0], water_polluting_direction, tile, additional_tiles)
@@ -55,7 +63,7 @@ func _on_expand_timer_timeout():
 			else:
 				curr_expansion_radius += 1
 		else:
-			expanded.emit(surronding_tiles_arrays[curr_expansion_radius], factory_resource.pollution_type)
+			expanded.emit(surronding_tiles_arrays[curr_expansion_radius], factory_resource.pollution_type, tile)
 			curr_expansion_radius += 1
 	else:
 		if not has_fully_expanded and not factory_resource.pollution_type == "water":
@@ -64,7 +72,10 @@ func _on_expand_timer_timeout():
 		if factory_resource.pollution_type == "water":
 			expanded.emit(all_affected_tiles, null, tile, additional_tiles)
 		else:
-			expanded.emit(surronding_tiles_arrays[factory_resource.max_radius-1], factory_resource.pollution_type)
+			expanded.emit(surronding_tiles_arrays[factory_resource.max_radius-1], factory_resource.pollution_type, tile)
+	if curr_expansion_radius > 0:
+		gpu_particles_2d.amount = 150 * curr_expansion_radius
+	gpu_particles_2d.emitting = true
 
 func get_info():
 	var info_array = []

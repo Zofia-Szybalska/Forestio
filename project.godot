@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Forestio"
-run/main_scene="res://scenes/levels/level.tscn"
+run/main_scene="res://scenes/UI/main_menu.tscn"
 config/features=PackedStringArray("4.1", "Mobile")
 config/icon="res://icon.svg"
 config/windows_native_icon="res://assets/Icon.ico"

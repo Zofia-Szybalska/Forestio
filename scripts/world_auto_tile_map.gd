@@ -303,8 +303,8 @@ func _on_fern_has_grown(affected_tiles):
 	set_cells_terrain_connect(base_layer, tiles_to_change, 0, 2, false)
 	set_cells_terrain_connect(super_pollution_layer, tiles_to_change, 2, -1, false)
 
-func _on_factory_expanded(affected_tiles, pollution_type):
-	change_surronding_tiles_polution(affected_tiles, pollution_type)
+func _on_factory_expanded(affected_tiles, pollution_type, tile):
+	change_surronding_tiles_polution(affected_tiles, pollution_type, tile)
 
 func _on_currency_changed(amount):
 	currency_changed.emit(amount)
@@ -398,7 +398,7 @@ func change_water_tiles(tiles, type):
 		for tile in tiles:
 			set_cell(water_layer, tile, 8, get_cell_atlas_coords(water_layer, tile))
 
-func change_surronding_tiles_polution(affected_tiles: Array, pollution_type):
+func change_surronding_tiles_polution(affected_tiles: Array, pollution_type, factory_tile):
 	var local_tiles = affected_tiles.duplicate()
 	for tile in affected_tiles:
 		if not get_cell_source_id(eternal_grass_layer, tile) == -1:
@@ -418,6 +418,7 @@ func change_surronding_tiles_polution(affected_tiles: Array, pollution_type):
 	elif pollution_type == "super":
 		set_cells_terrain_connect(super_pollution_layer, affected_tiles, 2, 0)
 	set_cells_terrain_connect(grass_layer, affected_tiles, 1, -1)
+	factories[factory_tile].all_affected_tiles_pos = get_tiles_positions(affected_tiles)
 
 func get_surronding_tiles(tile, radius, type = "normal"):
 	var target_tile
