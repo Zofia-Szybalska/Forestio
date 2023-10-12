@@ -12,6 +12,7 @@ var fern_cost = 10
 var algae_cost = 10
 var mouse_pos
 var destroy_mode_active = false
+var info_box_showed: bool = false
 
 @export var starting_currency: int = 100
 @export var currency_max: int = 5000
@@ -24,6 +25,7 @@ var destroy_mode_active = false
 
 
 func _ready():
+	level_ui.info_hidden.connect(_on_info_hidden)
 	world_auto_tile_map.currency_changed.connect(_on_currency_changed)
 	world_auto_tile_map.grass_tiles_changed.connect(_on_grass_tiles_changed)
 	currency = starting_currency
@@ -46,6 +48,9 @@ func _on_grass_tiles_changed(tiles_count):
 func _process(_delta):
 	mouse_pos = get_global_mouse_position()
 
+func _on_info_hidden():
+	info_box_showed = false
+
 func _unhandled_input(event):
 	if event.is_action_pressed("left_click") and tree_chosen and not destroy_mode_active:
 		if world_auto_tile_map.can_place_plant(mouse_pos) and not chosen_tree == TreesTypes.ALGAE:
@@ -55,8 +60,11 @@ func _unhandled_input(event):
 	elif event.is_action_pressed("left_click") and not tree_chosen and not destroy_mode_active:
 		var info_array = world_auto_tile_map.get_tile_info(mouse_pos)
 		level_ui.show_info(info_array)
+		info_box_showed = true
 	elif event.is_action_pressed("left_click") and destroy_mode_active:
 		world_auto_tile_map.try_to_destroy_tree(mouse_pos)
+	elif event.is_action_pressed("ui_cancel")and not tree_chosen and not destroy_mode_active and not info_box_showed:
+		show_pause_menu()
 
 func _on_currency_changed(amount):
 	currency += amount
@@ -126,3 +134,7 @@ func _on_world_auto_tile_map_game_lost(text):
 func _on_level_ui_info_needed(tile):
 	var info_array = world_auto_tile_map.get_tile_info(tile)
 	level_ui.show_info(info_array)
+
+func show_pause_menu():
+	get_tree().paused = true
+	$UI/PauseMenu.show()

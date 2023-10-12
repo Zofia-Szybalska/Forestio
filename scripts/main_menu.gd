@@ -4,7 +4,8 @@ var options_scene = preload("res://scenes/UI/options.tscn").instantiate()
 
 func _ready():
 	get_tree().root.add_child.call_deferred(options_scene)
-	options_scene.previous_scene = self
+	options_scene.hide()
+	options_scene.previous_menu = self
 
 func _on_play_button_pressed():
 	get_tree().change_scene_to_file("res://scenes/levels/level.tscn")

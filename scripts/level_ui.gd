@@ -23,7 +23,7 @@ var info_box_is_beeing_hidden = false
 signal chosen_tree_changed
 signal destroy_mode_changed
 signal info_needed
-
+signal info_hidden
 
 func _process(_delta):
 	if info_box.visible:
@@ -100,6 +100,7 @@ func hide_info():
 func on_tween_finished():
 	info_box.hide()
 	info_box_is_beeing_hidden = false
+	info_hidden.emit()
 
 func change_info(tile, nature, building, curr_range, expand, time):
 	tile_info.text = str(tile)

@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://2d7gwea10j80"]
+[gd_scene load_steps=7 format=3 uid="uid://2d7gwea10j80"]
 
 [ext_resource type="Script" path="res://scripts/level.gd" id="1_8ndkd"]
 [ext_resource type="PackedScene" uid="uid://8h8k8gw8mkph" path="res://scenes/UI/level_ui.tscn" id="2_pwn3u"]
 [ext_resource type="PackedScene" uid="uid://bb7sf1qq1mdt2" path="res://scenes/world_auto_tile_map.tscn" id="3_aclaa"]
 [ext_resource type="PackedScene" uid="uid://ky25tq14d7dy" path="res://scenes/level_camera.tscn" id="4_6l4j5"]
 [ext_resource type="PackedScene" uid="uid://dwt04gb5u6ke6" path="res://scenes/UI/level_ended.tscn" id="5_t1psi"]
+[ext_resource type="PackedScene" uid="uid://bp2hmb4k2yylo" path="res://scenes/UI/pause_menu.tscn" id="6_8d66a"]
 
 [node name="Level" type="Node2D"]
 script = ExtResource("1_8ndkd")
@@ -22,6 +23,9 @@ layer_7/tile_data = PackedInt32Array(393209, 10, 0, 524284, 10, 0)
 [node name="LevelUI" parent="UI" instance=ExtResource("2_pwn3u")]
 
 [node name="LevelEnded" parent="UI" instance=ExtResource("5_t1psi")]
+visible = false
+
+[node name="PauseMenu" parent="UI" instance=ExtResource("6_8d66a")]
 visible = false
 
 [connection signal="game_lost" from="WorldAutoTileMap" to="." method="_on_world_auto_tile_map_game_lost"]
