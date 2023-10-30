@@ -389,7 +389,7 @@ func change_surronding_tiles_tree(tiles: Array, plant_tile):
 	for tile in tiles:
 		if not get_cell_source_id(super_pollution_layer, tile) == -1:
 			local_tiles.erase(tile)
-		if factories.has(tile) and not factories[tile].is_destroyed:
+		if factories.has(tile) and not factories[tile].is_destroyed and get_cell_source_id(super_pollution_layer, tile) == -1:
 			if factories[tile].is_in_group("base_factories") or factories[tile].is_in_group("river_factories"):
 				factories[tile].destroy()
 			if factories[tile].is_in_group("super_factories") and factories[tile].surronding_tiles_arrays[0].any(is_grass):
