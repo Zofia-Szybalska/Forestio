@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://2d7gwea10j80"]
+[gd_scene load_steps=9 format=3 uid="uid://2d7gwea10j80"]
 
 [ext_resource type="Script" path="res://scripts/level.gd" id="1_8ndkd"]
 [ext_resource type="PackedScene" uid="uid://8h8k8gw8mkph" path="res://scenes/UI/level_ui.tscn" id="2_pwn3u"]
@@ -6,6 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://ky25tq14d7dy" path="res://scenes/level_camera.tscn" id="4_6l4j5"]
 [ext_resource type="PackedScene" uid="uid://dwt04gb5u6ke6" path="res://scenes/UI/level_ended.tscn" id="5_t1psi"]
 [ext_resource type="PackedScene" uid="uid://bp2hmb4k2yylo" path="res://scenes/UI/pause_menu.tscn" id="6_8d66a"]
+[ext_resource type="AudioStream" uid="uid://cu54vymh45rql" path="res://sounds/click_sound.wav" id="7_hiud7"]
+[ext_resource type="AudioStream" uid="uid://dh28vgu4l50g3" path="res://sounds/cant_build_sound_efect.mp3" id="7_hmxjd"]
 
 [node name="Level" type="Node2D"]
 script = ExtResource("1_8ndkd")
@@ -27,6 +29,18 @@ visible = false
 
 [node name="PauseMenu" parent="UI" instance=ExtResource("6_8d66a")]
 visible = false
+
+[node name="BackGroundMusic" type="AudioStreamPlayer" parent="."]
+bus = &"music"
+
+[node name="ClickSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_hiud7")
+bus = &"sfx"
+
+[node name="CannotBuildSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_hmxjd")
+volume_db = 6.5
+bus = &"sfx"
 
 [connection signal="game_lost" from="WorldAutoTileMap" to="." method="_on_world_auto_tile_map_game_lost"]
 [connection signal="chosen_tree_changed" from="UI/LevelUI" to="." method="_on_level_ui_chosen_tree_changed"]

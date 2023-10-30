@@ -10,25 +10,26 @@ var chosen_tree = null:
 		chosen_tree = value
 		_on_chosen_tree_change()
 
-var highlight_layer: int = 6
 var base_layer:int = 0
-var grass_layer:int = 4
 var pollution_layer:int = 1
-var water_layer:int = 5
-var rocks_layer:int = 7
 var super_pollution_layer:int = 2
 var eternal_grass_layer:int = 3
+var grass_layer:int = 4
+var water_layer:int = 5
+var highlight_layer: int = 6
+var rocks_layer:int = 7
 
-var plants : Dictionary = {}
-var factories : Dictionary = {}
+
+var plants: Dictionary = {}
+var factories: Dictionary = {}
 enum TreesTypes {OAK, PRIMAL_OAK, SPRUCE, PRIMAL_SPRUCE, FERN, ALGAE}
-var first_tree = true
+var first_tree: bool = true
 var building_preview: Sprite2D
-var destroy_mode_active = false
-var primal_oak_placed = false
-var primal_spruce_placed = false
-var can_build_modulate = Color(1, 1, 1, 0.3)
-var cannot_build_modulate = Color(1, 0, 0, 0.5)
+var destroy_mode_active: bool = false
+var primal_oak_placed: bool = false
+var primal_spruce_placed: bool = false
+var can_build_modulate: Color = Color(1, 1, 1, 0.3)
+var cannot_build_modulate: Color = Color(1, 0, 0, 0.5)
 
 signal currency_changed
 signal grass_tiles_changed
@@ -118,6 +119,8 @@ func get_tile_info(pos):
 		tile = local_to_map(pos)
 	else:
 		tile = pos
+	if get_cell_source_id(base_layer, tile) == -1:
+		return null
 	var info_array: Array = []
 	info_array.append(get_tile_type(tile))
 	if plants.has(tile):
@@ -284,9 +287,12 @@ func get_tiles_positions(tiles: Array):
 		positions_array.append(map_to_local(tile))
 	return positions_array
 
-func _on_plant_has_grown(affected_tiles, plant_name, tile):
+func _on_plant_has_grown(affected_tiles, plant_name, tile, type = null):
 	if plant_name == "Fern":
-		_on_fern_has_grown(affected_tiles)
+		if type == null:
+			_on_fern_has_grown(affected_tiles)
+		elif type == "Death":
+			_on_fern_has_grown(affected_tiles, tile, "Death")
 		plants[tile].all_affected_tiles_pos = get_tiles_positions(affected_tiles)
 	elif plant_name == "Algae":
 		change_water_tiles(affected_tiles, "clear")
@@ -294,8 +300,12 @@ func _on_plant_has_grown(affected_tiles, plant_name, tile):
 	else:
 		change_surronding_tiles_tree(affected_tiles, tile)
 
-func _on_fern_has_grown(affected_tiles):
+func _on_fern_has_grown(affected_tiles, plant_tile = Vector2.ZERO, type = "Growth"):
 	var tiles_to_change: Array = []
+	if type == "Death":
+		remove_tiles(eternal_grass_layer, affected_tiles)
+		erase_cell(eternal_grass_layer, plant_tile)
+		return
 	for tile in affected_tiles:
 		if not (factories.has(tile) and not factories[tile].is_destroyed):
 			tiles_to_change.append(tile)
@@ -473,9 +483,11 @@ func remove_tiles(layer, tiles):
 func try_to_destroy_tree(pos):
 	var tile = local_to_map(pos)
 	if plants.has(tile):
-		if plants[tile].plant_resource.is_prime:
-			game_lost.emit("Your %s was destroyed, you lost!" % plants[tile].plant_resource.name)
 		var plant = plants[tile]
+		if plant.plant_resource.is_prime:
+			game_lost.emit("Your %s was destroyed, you lost!" % plant.plant_resource.name)
+		if plant.plant_resource.name == "Fern":
+			_on_fern_has_grown(plant.surronding_tiles_arrays[plant.growth_state - 2 if plant.growth_state > 1 else 0], tile, "Death")
 		plants.erase(tile)
 		currency_changed.emit(plant.plant_resource.cost/2)
 		plant.queue_free()

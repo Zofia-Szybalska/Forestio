@@ -6,7 +6,7 @@ signal game_lost(lost_message: String)
 
 @export var plant_resource: Plant
 
-var growth_state = 0
+var growth_state: int = 0
 var tile:
 	set(value):
 		tile = value
@@ -71,6 +71,8 @@ func _on_growth_timer_timeout():
 
 func kill():
 	if plant_resource.can_be_killed:
+		if plant_resource.name == "Fern":
+			has_grown.emit(surronding_tiles_arrays[growth_state-2], plant_resource.name, tile, "Death")
 		currency_timer.stop()
 		growth_timer.stop()
 		if plant_resource.is_prime:

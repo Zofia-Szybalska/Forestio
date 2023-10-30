@@ -52,15 +52,22 @@ func _on_info_hidden():
 	info_box_showed = false
 
 func _unhandled_input(event):
+	if event.is_action_pressed("left_click"):
+		$ClickSound.play()
 	if event.is_action_pressed("left_click") and tree_chosen and not destroy_mode_active:
 		if world_auto_tile_map.can_place_plant(mouse_pos) and not chosen_tree == TreesTypes.ALGAE:
 			place_tree(mouse_pos)
-		if chosen_tree == TreesTypes.ALGAE and world_auto_tile_map.is_water(mouse_pos):
+		elif chosen_tree == TreesTypes.ALGAE and world_auto_tile_map.is_water(mouse_pos):
 			place_tree(mouse_pos)
+		else:
+			$CannotBuildSound.play()
 	elif event.is_action_pressed("left_click") and not tree_chosen and not destroy_mode_active:
 		var info_array = world_auto_tile_map.get_tile_info(mouse_pos)
-		level_ui.show_info(info_array)
-		info_box_showed = true
+		if info_array:
+			level_ui.show_info(info_array)
+			info_box_showed = true
+		else:
+			level_ui.hide_info()
 	elif event.is_action_pressed("left_click") and destroy_mode_active:
 		world_auto_tile_map.try_to_destroy_tree(mouse_pos)
 	elif event.is_action_pressed("ui_cancel")and not tree_chosen and not destroy_mode_active and not info_box_showed:

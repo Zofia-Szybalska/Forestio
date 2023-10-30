@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://cvp4eq8src7l3"]
+[gd_scene load_steps=3 format=3 uid="uid://cvp4eq8src7l3"]
 
 [ext_resource type="Script" path="res://scripts/options.gd" id="1_hc6gp"]
+[ext_resource type="PackedScene" uid="uid://rfjaiysdfx6p" path="res://scenes/UI/volume_slider.tscn" id="2_4wlep"]
 
 [node name="Options" type="Control"]
 process_mode = 3
@@ -45,26 +46,36 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/MarginContainer/CenterContainer"]
+[node name="Sounds" type="VBoxContainer" parent="MarginContainer/MarginContainer/CenterContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/MarginContainer/CenterContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="MarginContainer/MarginContainer/CenterContainer/VBoxContainer/HBoxContainer"]
+[node name="Lable" type="Label" parent="MarginContainer/MarginContainer/CenterContainer/Sounds"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
-text = "Sounds"
+text = "Master Volume"
 
-[node name="HSlider" type="HSlider" parent="MarginContainer/MarginContainer/CenterContainer/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(200, 0)
+[node name="MasterVolumeSlider" parent="MarginContainer/MarginContainer/CenterContainer/Sounds" instance=ExtResource("2_4wlep")]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-tick_count = 10
-ticks_on_borders = true
+bus_name = "Master"
+
+[node name="Lable2" type="Label" parent="MarginContainer/MarginContainer/CenterContainer/Sounds"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Music Volume"
+
+[node name="MusicVolumeSlider" parent="MarginContainer/MarginContainer/CenterContainer/Sounds" instance=ExtResource("2_4wlep")]
+layout_mode = 2
+bus_name = "music"
+
+[node name="Lable3" type="Label" parent="MarginContainer/MarginContainer/CenterContainer/Sounds"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "SFX Volume"
+
+[node name="SfxVolumeSlider" parent="MarginContainer/MarginContainer/CenterContainer/Sounds" instance=ExtResource("2_4wlep")]
+layout_mode = 2
+bus_name = "sfx"
 
 [connection signal="pressed" from="MarginContainer/MarginContainer/BackButton" to="." method="_on_back_button_pressed"]
-[connection signal="value_changed" from="MarginContainer/MarginContainer/CenterContainer/VBoxContainer/HBoxContainer/HSlider" to="." method="_on_h_slider_value_changed"]
